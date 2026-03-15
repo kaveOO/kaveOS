@@ -2,21 +2,18 @@
 #define CPU_H
 
 #include "kernel.h"
+#include "binary.h"
 
-enum CpuFlags {
-	CPU_FLAG_HALTED = 0 // 0000 0001
+enum {
+	CPU_HALT_BIT = 0 // 0000 0001
 };
 
 static inline bool get_cpu_halted(t_cpu *cpu) {
-	return cpu->flags & BIT(CPU_FLAG_HALTED)
+	return get_flag(cpu->flags, CPU_HALT_BIT);
 }
 
 static inline void set_cpu_halted(t_cpu *cpu, bool value) {
-	if (value) {
-		cpu->flags |= BIT(CPU_FLAG_HALTED);
-	} else {
-		cpu->flags &= (uint8_t)~BIT(CPU_FLAG_HALTED);
-	}
+	set_flag(&cpu->flags, CPU_HALT_BIT, value);
 }
 
 #endif

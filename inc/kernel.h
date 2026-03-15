@@ -1,8 +1,6 @@
 #ifndef KERNEL_H
 #define KERNEL_H
 
-#define BIT(n) (1u << (n));
-
 #define	VGA_WIDTH		80
 #define	VGA_HEIGHT		25
 #define	VGA_ENTRY		(unsigned char *) 0xB8000
