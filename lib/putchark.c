@@ -1,5 +1,5 @@
 #include "lib.h"
 
-int putchark(int c, unsigned int color) {
-	return writek(c, 1, color);
+int putchark(int c) {
+	return writek(c, 1);
 }
