@@ -3,18 +3,11 @@
 
 #include "kernel.h"
 
-typedef struct s_screen {
-	int				cursor_row;
-	int				cursor_col;
-	unsigned int 	theme;
-	bool			switched;
-	unsigned char	buffer[VGA_SIZE];
-} t_screen;
-
-extern t_screen		g_screens[13];
-extern unsigned int	g_current_screen;
+static inline t_screen *current_screen() {
+	return &g_kernel.screens.screens[g_kernel.screens.current];
+}
 
 void screen_changer(uint8_t key);
-void init_screens();
+void init_screens(t_screens *screens);
 
 #endif

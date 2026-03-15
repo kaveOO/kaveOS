@@ -1,7 +1,7 @@
 #include "cursor.h"
 
 void move_cursor() {
-	int	pos = ((g_vga - VGA_ENTRY) / 2); // Calculte bytes from VGA entry
+	int	pos = ((g_vga - VGA_ENTRY) / 2);
 
 	outb(CURSOR_CMD, 0x0F);
 	outb(CURSOR_DATA, (uint8_t) (pos & 0xFF));
@@ -26,7 +26,7 @@ int get_cursor_x() {
 	outb(CURSOR_CMD, 0x0E);
 	pos |= ((uint16_t)inb(CURSOR_DATA)) << 8;
 
-	int x = pos % VGA_WIDTH;;
+	int x = pos % VGA_WIDTH;
 	return x;
 }
 

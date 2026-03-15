@@ -1,82 +1,110 @@
 #include "keyboard.h"
+#include "stack.h"
+#include "cpu.h"
 
-int g_shift_down = false;
-int g_caps_lock = false;
-int g_insert_on = false;
+static void	update_modifiers(uint8_t key, t_key_state state) {
+	if (LEFT_SHIFT == key) {
+		SET_KEYBOARD_L_SHIFT_PRESSED(g_keyboard, state == KEY_PRESSED);
+	} else if (RIGHT_SHIFT == key) {
+		SET_KEYBOARD_R_SHIFT_PRESSED(g_keyboard, state == KEY_PRESSED);
+	} else if (CONTROL == key) {
+		SET_KEYBOARD_CTRL_PRESSED(g_keyboard, state == KEY_PRESSED);
+	} else if (CAPS_LOCK == key && state == KEY_PRESSED) {
+		SET_KEYBOARD_CAPS_LOCK_ON(g_keyboard, !KEYBOARD_CAPS_LOCK_ON(g_keyboard));
+	}
+}
 
-static void	handle_extended(uint8_t scancode) {
-	switch (scancode) {
-		case 0x48:
-			// TODO Up commands history
-			break;
-		case 0x50:
-			// TODO Down commands history
-			break;
-		case 0x4D:
+static char	translate_scancode(uint8_t scancode) {
+	uint8_t key = scancode & 0x7F;
+	char c = 0;
+
+	if (KEYBOARD_L_SHIFT_PRESSED(g_keyboard)) {
+		c = scancode_shifted[key];
+	} else {
+		c = scancode_normal[key];
+	}
+
+	if (c >= 'a' && c <= 'z') {
+		if (KEYBOARD_CAPS_LOCK_ON(g_keyboard) ^ KEYBOARD_L_SHIFT_PRESSED(g_keyboard)) {
+			return (char)(c - 'a' + 'A');
+		}
+	} else if (c >= 'A' && c <= 'Z') {
+		if (KEYBOARD_CAPS_LOCK_ON(g_keyboard) ^ KEYBOARD_L_SHIFT_PRESSED(g_keyboard)) {
+			return c;
+		} else {
+			return (char)(c - 'A' + 'a');
+		}
+	}
+	return c;
+}
+
+static void handle_special_keys(uint8_t scancode, char c, t_key_state state) {
+	if (state != KEY_PRESSED) {
+		return;
+	}
+
+	if ((c == 'r' || c == 'R') && KEYBOARD_CTRL_PRESSED(g_keyboard) && 		get_cpu_halted(g_cpu)) {
+		set_cpu_halted(g_cpu, false);
+		return;
+	}
+
+	uint8_t key = scancode & 0x7F;
+
+	switch (key) {
+		case RIGHT_ARROW:
 			g_vga += 2;
 			break;
-		case 0x4B:
+		case LEFT_ARROW:
 			g_vga -= 2;
 			break;
-		case 0x52:
-			g_insert_on = !g_insert_on;
+		case INSERT:
+			SET_KEYBOARD_INSERT_ON(g_keyboard, !KEYBOARD_INSERT_ON(g_keyboard));
 			break;
 		default:
-			// Do nothing (WIP)
 			break;
 	}
 	move_cursor();
 }
 
-static char	translate_scancode(uint8_t scancode) {
-	uint8_t key = scancode & 0x7F; // base scancode (without release bit)
-
-	// Handle modifier keys separately
-	if (key == 0x2A || key == 0x36) { // Left or Right Shift
-		return 0; // modifier handled elsewhere
+static void process_input_char(t_screen *screen, char c) {
+	if (!KEYBOARD_IS_ENTER_PRESSED(g_keyboard) && NEW_LINE != c) {
+		return;
+	} else if (NEW_LINE == c) {
+		if (!KEYBOARD_IS_CMD_READY(g_keyboard)) {
+			if (!KEYBOARD_IS_ENTER_PRESSED(g_keyboard)) {
+				SET_KEYBOARD_IS_ENTER_PRESSED(g_keyboard, true);
+				return;
+			}
+		}
+		screen->cmd_buffer[screen->cmd_index] = '\0';
+		SET_KEYBOARD_IS_CMD_READY(g_keyboard, true);
+		printk("\n");
+	} else if (BACKSPACE == c) {
+		if (0 < screen->cmd_index) {
+			printk("\b");
+		}
+	} else {
+		if (screen->cmd_index < CMD_BUFFER_SIZE - 1) {
+			screen->cmd_buffer[screen->cmd_index++] = c;
+			char buf[2] = { c, '\0' };
+			printk(buf);
+		}
 	}
-	if (key == 0x3A) { // Caps Lock
-		return 0;
-	}
-
-	char c = 0;
-	if (g_shift_down) { c = scancode_shifted[key]; }
-	else { c = scancode_normal[key]; }
-
-	// Letter caps handling
-	if (c >= 'a' && c <= 'z') {
-		if (g_caps_lock ^ g_shift_down) return (char)(c - 'a' + 'A');
-	}
-	if (c >= 'A' && c <= 'Z') {
-		if (g_caps_lock ^ g_shift_down) return c;
-		else return (char)(c - 'A' + 'a');
-	}
-	return c;
 }
 
-// Fallback polling loop: call this from kmain if IRQs aren't set up yet.
-void	keyboard_poll_loop() {
-	while (1) {
-		// Wait until output buffer is full (status port 0x64 bit 0 == 1)
-		while (!(inb(0x64) & 1));
+void keyboard_handler() {
+	uint8_t scancode = inb(KEYBOARD_DATA_PORT);
+	t_key_state state = (scancode & KEY_RELEASED) ?
+						KEY_RELEASED : KEY_PRESSED;
+	uint8_t key = scancode & 0x7F;
 
-		uint8_t scancode = inb(0x60);
-		int released = scancode & 0x80;
-		uint8_t key = scancode & 0x7F;
-		// Modifier handling in polling mode
-		if (key == 0x2A || key == 0x36) {
-			if (released) g_shift_down = 0; else g_shift_down = 1;
-			continue;
-		}
-		if (key == 0x3A && !released) { g_caps_lock = !g_caps_lock; continue; }
-		if (released) continue;
-		screen_changer(key);
-		theme_changer(key);
-		handle_extended(scancode);
-		char c = translate_scancode(scancode);
-		if (c) {
-			char buf[2] = { c, '\0' };
-			printk(WHITE, buf);
-		}
-	}
+	update_modifiers(key, state);
+	theme_changer(key);
+	screen_changer(key);
+
+	char c = translate_scancode(scancode);
+	handle_special_keys(scancode, c, state);
+    if (c && KEY_PRESSED == state && !get_cpu_halted(g_cpu)) {
+        process_input_char(current_screen(), c);
+    }
 }

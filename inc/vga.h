@@ -25,9 +25,9 @@ enum Colors { // https://www.fountainware.com/EXPL/vga_color_palettes.htm
 	WHITE
 };
 
-#define BLANK_CELL(g_vga) {		\
-	g_vga[0] = ' ';				\
-	g_vga[1] = GRAY;			\
+#define BLANK_CELL(buffer) {										\
+	(buffer)[0] = ' ';												\
+	(buffer)[1] = (unsigned char)((g_kernel.bg_color << 4) | GRAY);	\
 }
 
 #define COPY_CHAR(src, dest) {	\
@@ -35,13 +35,13 @@ enum Colors { // https://www.fountainware.com/EXPL/vga_color_palettes.htm
 	dest[1]	= src[1];			\
 }
 
-void	vga_init();
 void	clear_line(int line);
 void	clear_screen();
 void	copy_line(int src, int dest);
 void	scroll_up();
-void	init_header();
 void	shift_chars_right(unsigned char *pos);
+void	centered_print(const char *str);
+void	boot_screen();
 
 #endif
 
