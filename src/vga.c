@@ -109,7 +109,7 @@ void boot_screen() {
 	centered_print("[ PRESS ENTER TO START ]");
 	g_kernel.color = WHITE;
 
-	while (!KEYBOARD_IS_ENTER_PRESSED(g_keyboard)) { }
+	while (!get_enter_pressed(g_keyboard)) { }
 
 	g_kernel.color = WHITE;
 	clear_screen();

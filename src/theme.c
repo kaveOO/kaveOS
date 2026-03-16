@@ -10,7 +10,7 @@ static void replace_vga_theme(unsigned int color) {
 }
 
 static bool get_theme_from_key(uint8_t key, unsigned int *theme_out) {
-	if (!KEYBOARD_L_SHIFT_PRESSED(&g_kernel.keyboard) && key < sizeof(f_keys_to_int)) {
+	if (!get_shift_pressed(&g_kernel.keyboard) && key < sizeof(f_keys_to_int)) {
 		uint8_t theme = f_keys_to_int[key];
 		if (theme > 0 && theme <= 12) {
 			*theme_out = theme;

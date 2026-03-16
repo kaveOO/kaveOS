@@ -9,6 +9,8 @@ unsigned char *end = VGA_END;
 
 // TODO: Pass as parameter for better modularity
 
+// TODO get_cpu_halted -> is_cpu_halted
+
 t_kernel	g_kernel;
 t_keyboard	*g_keyboard = &g_kernel.keyboard;
 t_cpu		*g_cpu = &g_kernel.cpu;

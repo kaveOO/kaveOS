@@ -31,12 +31,15 @@ void exec_cmd(const char *line) {
 void shell() {
 	printk("kaveOS> \0 ", g_kernel.screens.current);
 	while (1) {
-		while (!KEYBOARD_IS_CMD_READY(g_keyboard)) { /* Wait for '\n' */ }
+		while (!get_cmd_ready(g_keyboard)) {
+			// Wait for \n signal, halting is mandatory for race conditions
+			asm volatile("hlt");
+		}
 		t_screen *screen = current_screen();
 		char *line = screen->cmd_buffer;
 		if (line[0]) exec_cmd(line);
 		screen->cmd_index = 0;
-		SET_KEYBOARD_IS_CMD_READY(g_keyboard, false);
+		set_cmd_ready(g_keyboard, false);
 		memsetk(
 			screen->cmd_buffer,
 			0,

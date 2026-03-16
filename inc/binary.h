@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-#define BIT(n) (1u << (n));
+#define BIT(n) (1u << (n))
 
 static inline bool get_flag(uint8_t flags, uint8_t bit) {
 	return (flags >> bit) & 1;

@@ -1,7 +1,7 @@
 #include "screen.h"
 
 static bool get_screen_from_key(uint8_t key, unsigned int *screen_out) {
-	if (KEYBOARD_L_SHIFT_PRESSED(g_keyboard) && key < sizeof(f_keys_to_int)) {
+	if (get_shift_pressed(g_keyboard) && key < sizeof(f_keys_to_int)) {
 		uint8_t screen = f_keys_to_int[key];
 		if (screen == g_kernel.screens.current) {
 			return false;
@@ -56,6 +56,10 @@ void screen_changer(uint8_t key) {
 		}
 		g_kernel.screens.screens[screen].switched = true;
 	}
+}
+
+t_screen *current_screen() {
+	return &g_kernel.screens.screens[g_kernel.screens.current];
 }
 
 void init_screens(t_screens *screens) {

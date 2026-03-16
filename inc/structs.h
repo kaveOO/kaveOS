@@ -2,18 +2,20 @@
 #define STRUCTS_H
 
 #include "types.h"
+#include "vga.h"
+#include "shell.h"
 
 #define MAX_SCREENS 13
 
 typedef struct		s_keyboard {
 	uint8_t			flags;
-	// 0: left_shift_pressed
-	// 1: right_shift_pressed
-	// 2: ctrl_pressed
-	// 3: insert_on
-	// 4: caps_lock_on
-	// 5: is_cmd_ready
-	// 6: is_enter_pressed
+	// 0: shift_pressed
+	// 1: ctrl_pressed
+	// 2: insert_on
+	// 3: caps_lock_on
+	// 4: is_cmd_ready
+	// 5: is_enter_pressed
+	// 6: unused
 	// 7: unused
 }					t_keyboard;
 

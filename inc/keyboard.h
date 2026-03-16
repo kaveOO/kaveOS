@@ -2,31 +2,77 @@
 #define KEYBOARD_H
 
 #include "types.h"
+#include "binary.h"
+#include "structs.h"
 
 #define KEYBOARD_DATA_PORT	0x60
-#define	LEFT_SHIFT			0x2A
-#define RIGHT_SHIFT			0x36
+#define	SHIFT				0x2A
 #define CONTROL				0x1D
 #define	CAPS_LOCK			0x3A
 #define INSERT				0x52
 #define RIGHT_ARROW			0x4D
 #define LEFT_ARROW			0x4B
 
-#define KEYBOARD_L_SHIFT_PRESSED(k)		((k)->flags & (1 << 0))
-#define KEYBOARD_R_SHIFT_PRESSED(k)		((k)->flags & (1 << 1))
-#define KEYBOARD_CTRL_PRESSED(k)		((k)->flags & (1 << 2))
-#define KEYBOARD_INSERT_ON(k)			((k)->flags & (1 << 3))
-#define KEYBOARD_CAPS_LOCK_ON(k)		((k)->flags & (1 << 4))
-#define KEYBOARD_IS_CMD_READY(k)		((k)->flags & (1 << 5))
-#define KEYBOARD_IS_ENTER_PRESSED(k)	((k)->flags & (1 << 6))
+enum {
+	KB_SHIFT_BIT		= 0,
+	KB_CTRL_BIT 		= 1,
+	KB_INSERT_BIT 		= 2,
+	KB_CAPS_LOCK_BIT 	= 3,
+	KB_ENTER_BIT 		= 4,
+	KB_CMD_READY_BIT 	= 5
+};
 
-#define SET_KEYBOARD_L_SHIFT_PRESSED(k, val)	(k)->flags = ((k)->flags & (uint8_t)(0xFF ^ (1 << 0))) | ((val) ? (uint8_t)(1 << 0) : 0)
-#define SET_KEYBOARD_R_SHIFT_PRESSED(k, val)	(k)->flags = ((k)->flags & (uint8_t)(0xFF ^ (1 << 1))) | ((val) ? (uint8_t)(1 << 1) : 0)
-#define SET_KEYBOARD_CTRL_PRESSED(k, val)		(k)->flags = ((k)->flags & (uint8_t)(0xFF ^ (1 << 2))) | ((val) ? (uint8_t)(1 << 2) : 0)
-#define SET_KEYBOARD_INSERT_ON(k, val)			(k)->flags = ((k)->flags & (uint8_t)(0xFF ^ (1 << 3))) | ((val) ? (uint8_t)(1 << 3) : 0)
-#define SET_KEYBOARD_CAPS_LOCK_ON(k, val)		(k)->flags = ((k)->flags & (uint8_t)(0xFF ^ (1 << 4))) | ((val) ? (uint8_t)(1 << 4) : 0)
-#define SET_KEYBOARD_IS_CMD_READY(k, val)		(k)->flags = ((k)->flags & (uint8_t)(0xFF ^ (1 << 5))) | ((val) ? (uint8_t)(1 << 5) : 0)
-#define SET_KEYBOARD_IS_ENTER_PRESSED(k, val)	(k)->flags = ((k)->flags & (uint8_t)(0xFF ^ (1 << 6))) | ((val) ? (uint8_t)(1 << 6) : 0)
+// Binary Getters
+
+static inline bool get_shift_pressed(t_keyboard *keyboard) {
+	return get_flag(keyboard->flags, KB_SHIFT_BIT);
+}
+
+static inline bool get_ctrl_pressed(t_keyboard *keyboard) {
+	return get_flag(keyboard->flags, KB_CTRL_BIT);
+}
+
+static inline bool get_insert_on(t_keyboard *keyboard) {
+	return get_flag(keyboard->flags, KB_INSERT_BIT);
+}
+
+static inline bool get_caps_lock_on(t_keyboard *keyboard) {
+	return get_flag(keyboard->flags, KB_CAPS_LOCK_BIT);
+}
+
+static inline bool get_cmd_ready(t_keyboard *keyboard) {
+	return get_flag(keyboard->flags, KB_CMD_READY_BIT);
+}
+
+static inline bool get_enter_pressed(t_keyboard *keyboard) {
+	return get_flag(keyboard->flags, KB_ENTER_BIT);
+}
+
+// Binary Setters
+
+static inline void set_shift_pressed(t_keyboard *keyboard, bool value) {
+	set_flag(&keyboard->flags, KB_SHIFT_BIT, value);
+}
+
+static inline void set_ctrl_pressed(t_keyboard *keyboard, bool value) {
+	set_flag(&keyboard->flags, KB_CTRL_BIT, value);
+}
+
+static inline void set_insert_on(t_keyboard *keyboard, bool value) {
+	set_flag(&keyboard->flags, KB_INSERT_BIT, value);
+}
+
+static inline void set_caps_lock_on(t_keyboard *keyboard, bool value) {
+	set_flag(&keyboard->flags, KB_CAPS_LOCK_BIT, value);
+}
+
+static inline void set_cmd_ready(t_keyboard *keyboard, bool value) {
+	set_flag(&keyboard->flags, KB_CMD_READY_BIT, value);
+}
+
+static inline void set_enter_pressed(t_keyboard *keyboard, bool value) {
+	set_flag(&keyboard->flags, KB_ENTER_BIT, value);
+}
 
 typedef enum {
 	KEY_RELEASED = 0x80,
