@@ -1,4 +1,8 @@
 #include "theme.h"
+#include "vga.h"
+#include "keyboard.h"
+#include "screen.h"
+#include "kernel.h"
 
 static void replace_vga_theme(unsigned int color) {
 	unsigned char *vga_start = VGA_ENTRY;

@@ -1,4 +1,5 @@
 #include "screen.h"
+#include "kernel.h"
 
 static bool get_screen_from_key(uint8_t key, unsigned int *screen_out) {
 	if (get_shift_pressed(g_keyboard) && key < sizeof(f_keys_to_int)) {
@@ -58,10 +59,6 @@ void screen_changer(uint8_t key) {
 	}
 }
 
-t_screen *current_screen() {
-	return &g_kernel.screens.screens[g_kernel.screens.current];
-}
-
 void init_screens(t_screens *screens) {
 	for (int i = 1; i <= 12; i++) {
 		screens->screens[i].cursor_col = 0;
@@ -69,7 +66,7 @@ void init_screens(t_screens *screens) {
 		screens->screens[i].theme = 42;
 		screens->screens[i].switched = false;
 		for (int j = 0; j < VGA_SIZE; j += 2) {
-			BLANK_CELL(&screens->screens[i].buffer[j]);
+			BLANK_CELL(&screens->screens[i].buffer[j], g_kernel.bg_color);
 		}
 		memsetk(
 			screens->screens[i].cmd_buffer,
@@ -78,4 +75,8 @@ void init_screens(t_screens *screens) {
 		);
 		screens->screens[i].cmd_index = 0;
 	}
+}
+
+t_screen *current_screen() {
+	return &g_kernel.screens.screens[g_kernel.screens.current];
 }

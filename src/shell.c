@@ -1,5 +1,5 @@
 #include "shell.h"
-#include "cpu.h"
+#include "kernel.h"
 
 void help() {
 	printk("F1-F12        \tchange the text and write color of current screen\n");

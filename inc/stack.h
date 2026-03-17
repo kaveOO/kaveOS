@@ -1,9 +1,15 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "kernel.h"
+/* ================= Includes ================= */
+
+#include "types.h"
+
+/* ================= Macros / Constants ================= */
 
 #define DUMP_SIZE 16 // 8 or 16
+
+/* ================= Enums ================= */
 
 enum StackType {
 	GDT,
@@ -12,12 +18,20 @@ enum StackType {
 	KERNEL_EXEC,
 };
 
+/* ================= Forward Declarations ================= */
+
+/* ================= Structs ================= */
+
+/* ================= External Tables / Globals ================= */
+
 extern uint32_t	stack_top[];
 extern uint32_t	stack_bottom[];
 extern uint32_t gdt_start[];
 extern uint32_t gdt_end[];
 extern uint32_t idt_start[];
 extern uint32_t idt_end[];
+
+/* ================= Inline Functions ================= */
 
 static inline uint32_t get_esp() {
 	uint32_t esp;
@@ -30,6 +44,8 @@ static inline uint32_t get_ebp() {
 	asm volatile("mov %%ebp, %0" : "=r"(ebp));
 	return ebp;
 }
+
+/* ================= Function Prototypes ================= */
 
 void	hexdump(unsigned char *start, unsigned char *end);
 void	print_stack(enum StackType stack);

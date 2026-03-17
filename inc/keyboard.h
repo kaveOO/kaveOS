@@ -1,9 +1,19 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
+/* ================= Includes ================= */
+
 #include "types.h"
 #include "binary.h"
-#include "structs.h"
+#include "cpu.h"
+#include "vga.h"
+#include "cursor.h"
+#include "chars.h"
+#include "screen.h"
+#include "lib.h"
+#include "theme.h"
+
+/* ================= Macros / Constants ================= */
 
 #define KEYBOARD_DATA_PORT	0x60
 #define	SHIFT				0x2A
@@ -12,6 +22,28 @@
 #define INSERT				0x52
 #define RIGHT_ARROW			0x4D
 #define LEFT_ARROW			0x4B
+
+// TODO set keys as enum
+
+#define F1					0x3B
+#define F2					0x3C
+#define F3					0x3D
+#define F4					0x3E
+#define F5					0x3F
+#define F6					0x40
+#define F7					0x41
+#define F8					0x42
+#define F9					0x43
+#define F10					0x44
+#define F11					0x57
+#define F12					0x58
+
+/* ================= Enums ================= */
+
+typedef enum {
+	KEY_RELEASED = 0x80,
+	KEY_PRESSED = 0x00
+} t_key_state;
 
 enum {
 	KB_SHIFT_BIT		= 0,
@@ -22,7 +54,31 @@ enum {
 	KB_CMD_READY_BIT 	= 5
 };
 
-// Binary Getters
+/* ================= Forward Declarations ================= */
+
+/* ================= Structs ================= */
+
+typedef struct		s_keyboard {
+	uint8_t			flags;
+	// 0: shift_pressed
+	// 1: ctrl_pressed
+	// 2: insert_on
+	// 3: caps_lock_on
+	// 4: is_cmd_ready
+	// 5: is_enter_pressed
+	// 6: unused
+	// 7: unused
+}					t_keyboard;
+
+/* ================= External Tables / Globals ================= */
+
+extern const uint8_t	f_keys_to_int[0x59];
+extern const char		scancode_shifted[128];
+extern const char		scancode_normal[128];
+
+extern t_keyboard		*g_keyboard;
+
+/* ================= Inline Functions ================= */
 
 static inline bool get_shift_pressed(t_keyboard *keyboard) {
 	return get_flag(keyboard->flags, KB_SHIFT_BIT);
@@ -48,8 +104,6 @@ static inline bool get_enter_pressed(t_keyboard *keyboard) {
 	return get_flag(keyboard->flags, KB_ENTER_BIT);
 }
 
-// Binary Setters
-
 static inline void set_shift_pressed(t_keyboard *keyboard, bool value) {
 	set_flag(&keyboard->flags, KB_SHIFT_BIT, value);
 }
@@ -74,41 +128,6 @@ static inline void set_enter_pressed(t_keyboard *keyboard, bool value) {
 	set_flag(&keyboard->flags, KB_ENTER_BIT, value);
 }
 
-typedef enum {
-	KEY_RELEASED = 0x80,
-	KEY_PRESSED = 0x00
-} t_key_state;
-
-static const char scancode_normal[128] = {
-	0,  27, '1','2','3','4','5','6','7','8','9','0','-','=', '\b', '\t',
-	'q','w','e','r','t','y','u','i','o','p','[',']','\n', 0,
-	'a','s','d','f','g','h','j','k','l',';','\'', '`', 0,
-	'\\','z','x','c','v','b','n','m',',','.','/', 0,  '*', 0, ' '
-};
-
-static const char scancode_shifted[128] = {
-	0,  27, '!','@','#','$','%','^','&','*','(',')','_','+', '\b', '\t',
-	'Q','W','E','R','T','Y','U','I','O','P','{','}','\n', 0,
-	'A','S','D','F','G','H','J','K','L',':','"','~', 0,
-	'|','Z','X','C','V','B','N','M','<','>','?', 0,  '*', 0, ' '
-};
-
-static const uint8_t f_keys_to_int[0x59] = {
-	[0x3B] = 1,	// F1
-	[0x3C] = 2,
-	[0x3D] = 3,
-	[0x3E] = 4,
-	[0x3F] = 5,
-	[0x40] = 6,
-	[0x41] = 7,
-	[0x42] = 8,
-	[0x43] = 9,
-	[0x44] = 10,
-	[0x57] = 11,
-	[0x58] = 12 // F12
-};
-
-extern bool resume_flag;
-extern bool is_halted;
+/* ================= Function Prototypes ================= */
 
 #endif

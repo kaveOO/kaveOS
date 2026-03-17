@@ -1,4 +1,5 @@
 #include "stack.h"
+#include "lib.h"
 
 void print_stack(enum StackType stack) {
 	switch (stack)

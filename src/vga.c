@@ -1,4 +1,8 @@
 #include "vga.h"
+#include "kernel.h"
+#include "cursor.h"
+#include "lib.h"
+#include "keyboard.h"
 
 unsigned char *g_vga	= VGA_ENTRY;
 unsigned char *vga_end	= VGA_END;
@@ -28,7 +32,7 @@ void clear_screen() {
 	unsigned char *screen_entry = VGA_ENTRY;
 
 	for (int i = 0; i < VGA_SIZE; i++) {
-		BLANK_CELL(screen_entry);
+		BLANK_CELL(screen_entry, g_kernel.bg_color);
 		screen_entry += 2;
 	}
 	g_vga = VGA_ENTRY;
@@ -39,7 +43,7 @@ void clear_line(int line) {
 	unsigned char *line_entry = VGA_ENTRY + line * VGA_LINE;
 
 	for (int i = 0; i < VGA_WIDTH; i++) {
-		BLANK_CELL(line_entry);
+		BLANK_CELL(line_entry, g_kernel.bg_color);
 		line_entry += 2;
 	}
 }

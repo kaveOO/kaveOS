@@ -1,4 +1,9 @@
 #include "lib.h"
+#include "vga.h"
+#include "screen.h"
+#include "kernel.h"
+#include "keyboard.h"
+#include "cursor.h"
 
 static int format_handler(int c)
 {
@@ -24,7 +29,7 @@ static int format_handler(int c)
 			if (screen->cmd_index == 0)
 				return 1;
 			g_vga -= 2;
-			BLANK_CELL(g_vga);
+			BLANK_CELL(g_vga, g_kernel.bg_color);
 			screen->cmd_index--;
 			screen->cmd_buffer[screen->cmd_index] = '\0';
 			return 1;

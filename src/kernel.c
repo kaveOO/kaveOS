@@ -1,8 +1,5 @@
 #include "kernel.h"
 
-unsigned char *video = VGA_ENTRY;
-unsigned char *end = VGA_END;
-
 // TODO const values on the left side of conditions
 
 // TODO not default test for non zero (view norm)
@@ -12,8 +9,8 @@ unsigned char *end = VGA_END;
 // TODO get_cpu_halted -> is_cpu_halted
 
 t_kernel	g_kernel;
-t_keyboard	*g_keyboard = &g_kernel.keyboard;
 t_cpu		*g_cpu = &g_kernel.cpu;
+t_keyboard	*g_keyboard;
 
 void kernel_init() {
 	g_kernel.keyboard.flags = 0;
@@ -26,6 +23,8 @@ void kernel_init() {
 }
 
 void kmain() {
+	g_keyboard = &g_kernel.keyboard;
+	g_cpu = &g_kernel.cpu;
 	kernel_init();
 	shell();
 }
