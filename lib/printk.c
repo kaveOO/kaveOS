@@ -40,6 +40,56 @@ static int putnbrk(int nb) {
 	return count;
 }
 
+static int print_address(const unsigned long nb) {
+	int count = 0;
+
+	if (nb >= 16) {
+		count += print_address(nb / 16);
+	}
+
+	if (nb % 16 < 10) {
+		count += putchark((nb % 16) + '0');
+	} else {
+		count += putchark((nb % 16) - 10 + 'a');
+	}
+	return count;
+}
+
+static int hex_len(unsigned long nb) {
+	int len = 1;
+
+	while (nb >= 16) {
+		nb /= 16;
+		len++;
+	}
+	return len;
+}
+
+static int printptrk(void *address) {
+	unsigned long addr = (unsigned long)address;
+	int len = 0;
+	int width = sizeof(void *) * 2;
+	int digits;
+
+	len += putstrk("0x");
+
+	if (!address) {
+		for (int i = 0; i < width; i++) {
+			len += putchark('0');
+		}
+		return len;
+	}
+
+	digits = hex_len(addr);
+
+	for (int i = 0; i < width - digits; i++) {
+		len += putchark('0');
+	}
+
+	len += print_address(addr);
+	return len;
+}
+
 int printk(const char *str, ...) {
 	va_list list;
 	va_start(list, str);
@@ -65,6 +115,8 @@ int printk(const char *str, ...) {
 				case 'X':
 					count += print_hex_up(va_arg(list, unsigned int));
 					break;
+				case 'p':
+					count += printptrk(va_arg(list, void *));
 			}
 			i++;
 		}
