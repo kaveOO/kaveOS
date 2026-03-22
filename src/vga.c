@@ -113,7 +113,9 @@ void boot_screen() {
 	centered_print("[ PRESS ENTER TO START ]");
 	g_kernel.color = WHITE;
 
-	while (!get_enter_pressed(g_keyboard)) { }
+	while (!get_enter_pressed(g_keyboard)) {
+		asm volatile("hlt");
+	}
 
 	g_kernel.color = WHITE;
 	clear_screen();
