@@ -8,6 +8,7 @@ void help() {
 	printk("stack         \tprint the kernel stack\n");
 	printk("exec          \tprint the kernel execution stack\n");
 	printk("gdt           \tprint the gdt stack\n");
+	printk("idt           \tprint the idt stack\n");
 	printk("clear         \tclear the terminal of actual screen\n");
 	printk("halt          \thalt the kernel execution (Ctrl + R) to resume\n");
 	printk("reboot        \treboot the kernel\n");

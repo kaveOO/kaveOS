@@ -37,7 +37,7 @@ void hexdump(unsigned char *start, unsigned char *end) {
 	char hex_digits[] = "0123456789abcdef";
 
 	while (start < end) {
-		printk("%p  ", start); // TODO handle %p here
+		printk("%p  ", start);
 
 		for (int i = 0; i < DUMP_SIZE; i++) {
 			unsigned char byte = start[i];
