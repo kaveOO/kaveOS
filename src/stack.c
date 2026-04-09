@@ -29,6 +29,7 @@ void print_stack(enum StackType stack) {
 			);
 			break;
 		default:
+			printk("print_stack: invalid StackType\n");
 			break;
 	}
 }
