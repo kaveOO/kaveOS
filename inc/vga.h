@@ -1,11 +1,7 @@
 #ifndef	VGA_H
 #define	VGA_H
 
-/* ================= Includes ================= */
-
 #include "types.h"
-
-/* ================= Macros / Constants ================= */
 
 #define BLANK_CELL(buffer, bg_color) {						\
 	(buffer)[0] = ' ';										\
@@ -23,8 +19,6 @@
 #define	VGA_LINE		VGA_WIDTH * 2
 #define	VGA_SIZE		(VGA_WIDTH * VGA_HEIGHT) * 2
 #define	VGA_END			VGA_ENTRY + VGA_SIZE
-
-/* ================= Enums ================= */
 
 enum Colors { // https://www.fountainware.com/EXPL/vga_color_palettes.htm
 	BLACK,
@@ -45,18 +39,8 @@ enum Colors { // https://www.fountainware.com/EXPL/vga_color_palettes.htm
 	WHITE
 };
 
-/* ================= Forward Declarations ================= */
-
-/* ================= Structs ================= */
-
-/* ================= External Tables / Globals ================= */
-
 extern unsigned char	*g_vga;
 extern unsigned char	*vga_end;
-
-/* ================= Inline Functions ================= */
-
-/* ================= Function Prototypes ================= */
 
 void	clear_line(int line);
 void	clear_screen();

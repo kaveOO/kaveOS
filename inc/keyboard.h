@@ -1,8 +1,6 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-/* ================= Includes ================= */
-
 #include "types.h"
 #include "binary.h"
 #include "cpu.h"
@@ -12,8 +10,6 @@
 #include "screen.h"
 #include "lib.h"
 #include "theme.h"
-
-/* ================= Macros / Constants ================= */
 
 #define KEYBOARD_DATA_PORT	0x60
 #define	SHIFT				0x2A
@@ -38,8 +34,6 @@
 #define F11					0x57
 #define F12					0x58
 
-/* ================= Enums ================= */
-
 typedef enum {
 	KEY_RELEASED = 0x80,
 	KEY_PRESSED = 0x00
@@ -54,10 +48,6 @@ enum {
 	KB_CMD_READY_BIT 	= 5
 };
 
-/* ================= Forward Declarations ================= */
-
-/* ================= Structs ================= */
-
 typedef struct		s_keyboard {
 	uint8_t			flags;
 	// 0: shift_pressed
@@ -70,15 +60,11 @@ typedef struct		s_keyboard {
 	// 7: unused
 }					t_keyboard;
 
-/* ================= External Tables / Globals ================= */
-
 extern const uint8_t	f_keys_to_int[0x59];
 extern const char		scancode_shifted[128];
 extern const char		scancode_normal[128];
 
 extern t_keyboard		*g_keyboard;
-
-/* ================= Inline Functions ================= */
 
 static inline bool get_shift_pressed(t_keyboard *keyboard) {
 	return get_flag(keyboard->flags, KB_SHIFT_BIT);
@@ -127,7 +113,5 @@ static inline void set_cmd_ready(t_keyboard *keyboard, bool value) {
 static inline void set_enter_pressed(t_keyboard *keyboard, bool value) {
 	set_flag(&keyboard->flags, KB_ENTER_BIT, value);
 }
-
-/* ================= Function Prototypes ================= */
 
 #endif

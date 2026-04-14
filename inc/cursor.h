@@ -1,28 +1,12 @@
 #ifndef CURSOR_H
 #define CURSOR_H
 
-/* ================= Includes ================= */
-
 #include "types.h"
 #include "vga.h"
 #include "io.h"
 
-/* ================= Macros / Constants ================= */
-
 #define	CURSOR_CMD	0x3D4
 #define	CURSOR_DATA	0x3D5
-
-/* ================= Enums ================= */
-
-/* ================= Forward Declarations ================= */
-
-/* ================= Structs ================= */
-
-/* ================= External Tables / Globals ================= */
-
-/* ================= Inline Functions ================= */
-
-/* ================= Function Prototypes ================= */
 
 void	update_cursor(int row, int col);
 void 	move_cursor();
