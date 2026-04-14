@@ -18,5 +18,6 @@ int		printk(const char *str, ...);
 int		strncmpk(const char *s1, const char *s2, unsigned int n);
 void	*memsetk(void *ptr, int value, unsigned long num);
 int		strcmpk(const char *s1, const char *s2);
+bool	isprintk(int c);
 
 #endif
