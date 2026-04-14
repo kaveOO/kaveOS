@@ -2,8 +2,7 @@
 #include "lib.h"
 
 void print_stack(enum StackType stack) {
-	switch (stack)
-	{
+	switch (stack) {
 		case GDT:
 			hexdump(
 				(unsigned char *)&gdt_start,
@@ -47,8 +46,9 @@ void hexdump(unsigned char *start, unsigned char *end) {
 			writek(hex_digits[byte & 0xF], 1);
 			writek(' ', 1);
 
-			if (DUMP_SIZE == 16 && i == 7)
+			if (16 == DUMP_SIZE && 7 == i) { // TODO Not explicit
 				writek(' ', 1);
+			}
 		}
 
 		writek(' ', 1);
@@ -56,14 +56,14 @@ void hexdump(unsigned char *start, unsigned char *end) {
 		for (int i = 0; i < DUMP_SIZE; i++) {
 			unsigned char c = start[i];
 
-			if (c >= 32 && c <= 126)
+			if (isprintk(c)) {
 				writek(c, 1);
-			else
+			} else {
 				writek('.', 1);
+			}
 		}
 
 		writek('\n', 1);
-
 		start += DUMP_SIZE;
 	}
 }
