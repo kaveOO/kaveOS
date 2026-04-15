@@ -5,8 +5,9 @@
 #include "keyboard.h"
 #include "cursor.h"
 
-static int format_handler(int c)
-{
+static int format_handler(int c) {
+	t_screen *screen = get_current_screen();
+
 	switch (c) {
 		case '\n':
 			g_vga += (VGA_LINE) - ((g_vga - VGA_ENTRY) % (VGA_LINE));
@@ -21,13 +22,14 @@ static int format_handler(int c)
 				scroll_up();
 			}
 			g_vga += 16;
+			screen->cmd_index += 8;
 			return 1;
 		}
 		case '\b':
 		{
-			t_screen *screen = get_current_screen();
-			if (screen->cmd_index == 0)
+			if (screen->cmd_index == 0) {
 				return 1;
+			}
 			g_vga -= 2;
 			BLANK_CELL(g_vga, g_kernel.bg_color);
 			screen->cmd_index--;

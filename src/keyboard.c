@@ -105,6 +105,8 @@ static void process_input_char(t_screen *screen, char c) {
 		if (0 < screen->cmd_index) {
 			printk("\b");
 		}
+	} else if (TAB == c) {
+		printk("\t");
 	} else {
 		if (screen->cmd_index < CMD_BUFFER_SIZE - 1) {
 			screen->cmd_buffer[screen->cmd_index++] = c;
