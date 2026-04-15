@@ -7,10 +7,17 @@ enum {
 	CPU_HALT_BIT = 0 // 0000 0001
 };
 
-typedef struct		s_cpu {
-	uint8_t			flags;
+typedef struct s_cpu {
+	uint8_t flags;
 	// 0: halted
-}					t_cpu;
+	// 1: unused
+	// 2: unused
+	// 3: unused
+	// 4: unused
+	// 5: unused
+	// 6: unused
+	// 7: unused
+} t_cpu;
 
 extern t_cpu	*g_cpu;
 
