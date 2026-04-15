@@ -29,23 +29,21 @@ void exec_cmd(const char *line) {
 	else printk("command not found: %s\n", line);
 }
 
-void shell() {
-	printk("kaveOS> \0 ", g_kernel.screens.current);
+void shell(t_keyboard *keyboard) {
+	printk("kaveOS> \0 ");
 	while (1) {
-		while (!get_cmd_ready(g_keyboard)) {
+		while (!get_cmd_ready(keyboard)) {
 			// Wait for \n signal, halting is mandatory for race conditions
 			asm volatile("hlt");
 		}
 		t_screen *screen = get_current_screen();
 		char *line = screen->cmd_buffer;
-		if (line[0]) exec_cmd(line);
+		if (line[0]) {
+			exec_cmd(line);
+		}
 		screen->cmd_index = 0;
-		set_cmd_ready(g_keyboard, false);
-		memsetk(
-			screen->cmd_buffer,
-			0,
-			sizeof(screen->cmd_buffer)
-		);
-		printk("kaveOS> \0 ", g_kernel.screens.current);
+		set_cmd_ready(keyboard, false);
+		memsetk(screen->cmd_buffer, 0, sizeof(screen->cmd_buffer));
+		printk("kaveOS> \0 ");
 	}
 }

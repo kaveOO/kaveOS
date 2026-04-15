@@ -10,10 +10,11 @@
 
 #define CMD_BUFFER_SIZE	256
 
-typedef struct s_kernel t_kernel;
+typedef struct s_kernel		t_kernel;
+typedef struct s_keyboard	t_keyboard;
 
 extern t_kernel g_kernel;
 
-void	shell();
+void	shell(t_keyboard *keyboard);
 
 #endif

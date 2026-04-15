@@ -26,5 +26,5 @@ void kmain() {
 	g_keyboard = &g_kernel.keyboard;
 	g_cpu = &g_kernel.cpu;
 	kernel_init();
-	shell();
+	shell(g_keyboard);
 }
