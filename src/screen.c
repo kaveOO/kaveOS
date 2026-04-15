@@ -77,6 +77,6 @@ void init_screens(t_screens *screens) {
 	}
 }
 
-t_screen *current_screen() {
+t_screen *get_current_screen() {
 	return &g_kernel.screens.screens[g_kernel.screens.current];
 }

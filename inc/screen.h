@@ -27,7 +27,7 @@ typedef struct		s_screens {
 	uint8_t			current;
 }					t_screens;
 
-t_screen	*current_screen();
+t_screen	*get_current_screen();
 void		screen_changer(uint8_t key);
 void 		init_screens(t_screens *screens);
 

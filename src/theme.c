@@ -28,7 +28,7 @@ void theme_changer(uint8_t key) {
 	unsigned int theme;
 	if (get_theme_from_key(key, &theme)) {
 		replace_vga_theme(theme);
-		current_screen()->theme = (uint8_t)theme;
+		get_current_screen()->theme = (uint8_t)theme;
 		g_kernel.color = theme;
 	}
 }

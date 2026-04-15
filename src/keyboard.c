@@ -130,6 +130,6 @@ void keyboard_handler() {
 	char c = translate_scancode(scancode);
 	handle_special_keys(scancode, c, state);
     if (c && KEY_PRESSED == state && !get_cpu_halted(g_cpu)) {
-        process_input_char(current_screen(), c);
+        process_input_char(get_current_screen(), c);
     }
 }

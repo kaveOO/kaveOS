@@ -25,7 +25,7 @@ static int format_handler(int c)
 		}
 		case '\b':
 		{
-			t_screen *screen = current_screen();
+			t_screen *screen = get_current_screen();
 			if (screen->cmd_index == 0)
 				return 1;
 			g_vga -= 2;

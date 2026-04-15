@@ -36,7 +36,7 @@ void shell() {
 			// Wait for \n signal, halting is mandatory for race conditions
 			asm volatile("hlt");
 		}
-		t_screen *screen = current_screen();
+		t_screen *screen = get_current_screen();
 		char *line = screen->cmd_buffer;
 		if (line[0]) exec_cmd(line);
 		screen->cmd_index = 0;
