@@ -82,9 +82,6 @@ static void handle_special_keys(uint8_t scancode, char c, t_key_state state) {
 		case LEFT_ARROW:
 			g_vga -= 2;
 			break;
-		case INSERT:
-			set_insert_on(g_keyboard, !get_insert_on(g_keyboard));
-			break;
 		default:
 			break;
 	}

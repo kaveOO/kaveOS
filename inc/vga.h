@@ -46,7 +46,6 @@ void	clear_line(int line);
 void	clear_screen();
 void	copy_line(int src, int dest);
 void	scroll_up();
-void	shift_chars_right(unsigned char *pos);
 void	centered_print(const char *str);
 void	boot_screen();
 

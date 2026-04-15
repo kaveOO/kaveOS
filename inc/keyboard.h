@@ -15,7 +15,6 @@
 #define	SHIFT				0x2A
 #define CONTROL				0x1D
 #define	CAPS_LOCK			0x3A
-#define INSERT				0x52
 #define RIGHT_ARROW			0x4D
 #define LEFT_ARROW			0x4B
 
@@ -42,20 +41,19 @@ typedef enum {
 enum {
 	KB_SHIFT_BIT		= 0,
 	KB_CTRL_BIT 		= 1,
-	KB_INSERT_BIT 		= 2,
-	KB_CAPS_LOCK_BIT 	= 3,
-	KB_ENTER_BIT 		= 4,
-	KB_CMD_READY_BIT 	= 5
+	KB_CAPS_LOCK_BIT 	= 2,
+	KB_ENTER_BIT 		= 3,
+	KB_CMD_READY_BIT 	= 4
 };
 
 typedef struct		s_keyboard {
 	uint8_t			flags;
 	// 0: shift_pressed
 	// 1: ctrl_pressed
-	// 2: insert_on
-	// 3: caps_lock_on
-	// 4: is_cmd_ready
-	// 5: is_enter_pressed
+	// 2: caps_lock_on
+	// 3: is_cmd_ready
+	// 4: is_enter_pressed
+	// 5: unused
 	// 6: unused
 	// 7: unused
 }					t_keyboard;
@@ -72,10 +70,6 @@ static inline bool get_shift_pressed(t_keyboard *keyboard) {
 
 static inline bool get_ctrl_pressed(t_keyboard *keyboard) {
 	return get_flag(keyboard->flags, KB_CTRL_BIT);
-}
-
-static inline bool get_insert_on(t_keyboard *keyboard) {
-	return get_flag(keyboard->flags, KB_INSERT_BIT);
 }
 
 static inline bool get_caps_lock_on(t_keyboard *keyboard) {
@@ -96,10 +90,6 @@ static inline void set_shift_pressed(t_keyboard *keyboard, bool value) {
 
 static inline void set_ctrl_pressed(t_keyboard *keyboard, bool value) {
 	set_flag(&keyboard->flags, KB_CTRL_BIT, value);
-}
-
-static inline void set_insert_on(t_keyboard *keyboard, bool value) {
-	set_flag(&keyboard->flags, KB_INSERT_BIT, value);
 }
 
 static inline void set_caps_lock_on(t_keyboard *keyboard, bool value) {

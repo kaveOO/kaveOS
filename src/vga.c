@@ -48,34 +48,6 @@ void clear_line(int line) {
 	}
 }
 
-void shift_chars_right(unsigned char *pos) {
-	unsigned char *line_start = VGA_ENTRY + ((pos - VGA_ENTRY) / VGA_LINE) * VGA_LINE;
-	unsigned char *line_end = line_start + VGA_LINE - 2;
-
-	unsigned char *last_char = line_end;
-	while (last_char >= pos && last_char[0] == ' ') {
-		last_char -= 2;
-	}
-
-	if (last_char >= pos) {
-		unsigned char *src = last_char;
-		unsigned char *dest = last_char + 2;
-
-		if (dest > line_end) {
-			dest = line_end;
-			src = line_end - 2;
-		}
-
-		while (src >= pos) {
-			if (dest <= line_end) {
-				COPY_CHAR(src, dest);
-			}
-			src -= 2;
-			dest -= 2;
-		}
-	}
-}
-
 void centered_print(const char *str) {
 	int len = strlenk(str);
 	int padding = ((VGA_WIDTH - len) / 2);

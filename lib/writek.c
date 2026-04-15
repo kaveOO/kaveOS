@@ -55,9 +55,6 @@ int writek(int c, int len) {
 		if (g_vga >= vga_end) {
 			scroll_up();
 		}
-		if (*g_vga != ' ' && !get_insert_on(&g_kernel.keyboard)) {
-			shift_chars_right(g_vga);
-		}
 		*g_vga++ = (unsigned char)c;
 		*g_vga++ = (unsigned char)attr;
 	}
