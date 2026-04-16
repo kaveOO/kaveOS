@@ -14,7 +14,6 @@ void scroll_up() {
 
 	clear_line(VGA_HEIGHT - 1);
 	g_vga = VGA_ENTRY + ((VGA_HEIGHT - 1) * VGA_WIDTH * 2);
-	move_cursor();
 }
 
 void copy_line(int src, int dest) {
@@ -36,7 +35,6 @@ void clear_screen() {
 		screen_entry += 2;
 	}
 	g_vga = VGA_ENTRY;
-	update_cursor(0, 0);
 }
 
 void clear_line(int line) {
