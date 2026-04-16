@@ -7,7 +7,7 @@
 
 typedef struct		s_kernel {
 	t_keyboard		keyboard;
-	t_screens		screens;
+	t_display		screens;
 	t_cpu			cpu;
 	unsigned int	color;
 	unsigned int	bg_color;

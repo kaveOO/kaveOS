@@ -59,7 +59,7 @@ void screen_changer(uint8_t key) {
 	}
 }
 
-void init_screens(t_screens *screens) {
+void init_display(t_display *screens) {
 	for (int i = 1; i <= 12; i++) {
 		screens->screens[i].cursor_col = 0;
 		screens->screens[i].cursor_row = 0;

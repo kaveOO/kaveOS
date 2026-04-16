@@ -22,13 +22,13 @@ typedef struct 		s_screen {
 	bool			switched;
 }					t_screen;
 
-typedef struct		s_screens {
+typedef struct		s_display {
 	t_screen		screens[MAX_SCREENS];
 	uint8_t			current;
-}					t_screens;
+}					t_display;
 
 t_screen	*get_current_screen();
 void		screen_changer(uint8_t key);
-void 		init_screens(t_screens *screens);
+void 		init_display(t_display *screens);
 
 #endif

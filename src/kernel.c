@@ -17,7 +17,7 @@ void kernel_init() {
 	g_kernel.cpu.flags = 0;
 	g_kernel.color = 42;
 	g_kernel.bg_color = BLACK;
-	init_screens(&g_kernel.screens);
+	init_display(&g_kernel.screens);
 	g_kernel.screens.current = 1;
 	boot_screen();
 }
