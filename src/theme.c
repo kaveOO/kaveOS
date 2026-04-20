@@ -4,31 +4,38 @@
 #include "screen.h"
 #include "kernel.h"
 
-static void replace_vga_theme(unsigned int color) {
+static void replace_vga_theme(t_theme *theme) {
 	unsigned char *vga_start = VGA_ENTRY;
 
 	for (int i = 0; i < VGA_SIZE; i++) {
-		vga_start[1] = (unsigned char)color;
+		vga_start[1] = vga_attr(theme->color, theme->bg_color);
 		vga_start += 2;
 	}
 }
 
-static bool get_theme_from_key(uint8_t key, unsigned int *theme_out) {
-	if (!get_shift_pressed(&g_kernel.keyboard) && key < sizeof(f_keys_to_int)) {
-		uint8_t theme = f_keys_to_int[key];
-		if (theme > 0 && theme <= 12) {
-			*theme_out = theme;
-			return true;
+static t_theme *set_theme_from_key(uint8_t key) {
+	t_theme *theme = get_current_theme();
+	enum Colors color;
+
+	if (!get_shift_pressed(g_keyboard)) {
+		color = f_keys_to_int[key];
+		if (color > 0 && color <= 12) {
+			if (get_ctrl_pressed(g_keyboard)) {
+				theme->bg_color = color;
+			} else {
+				theme->color = color;
+			}
+			return theme;
 		}
 	}
-	return false;
+
+	return NULL;
 }
 
 void theme_changer(uint8_t key) {
-	unsigned int theme;
-	if (get_theme_from_key(key, &theme)) {
+	t_theme *theme = set_theme_from_key(key);
+
+	if (theme) {
 		replace_vga_theme(theme);
-		get_current_screen()->theme = (uint8_t)theme;
-		g_kernel.color = theme;
 	}
 }

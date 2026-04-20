@@ -31,9 +31,10 @@ void clear_screen() {
 	unsigned char *screen_entry = VGA_ENTRY;
 
 	for (int i = 0; i < VGA_SIZE; i++) {
-		BLANK_CELL(screen_entry, g_kernel.bg_color);
+		BLANK_CELL(screen_entry, get_current_screen()->theme.bg_color);
 		screen_entry += 2;
 	}
+
 	g_vga = VGA_ENTRY;
 }
 
@@ -41,7 +42,7 @@ void clear_line(int line) {
 	unsigned char *line_entry = VGA_ENTRY + line * VGA_LINE;
 
 	for (int i = 0; i < VGA_WIDTH; i++) {
-		BLANK_CELL(line_entry, g_kernel.bg_color);
+		BLANK_CELL(line_entry, get_current_screen()->theme.bg_color);
 		line_entry += 2;
 	}
 }
@@ -59,7 +60,6 @@ void centered_print(const char *str) {
 }
 
 void boot_screen() {
-	g_kernel.color = PURPLE;
 	printk("\n\n\n\n");
 
 	centered_print("  _                    ____   _____ ");
@@ -72,21 +72,17 @@ void boot_screen() {
 	putchark('\n');
 	putchark('\n');
 
-	g_kernel.color = CYAN;
 	centered_print("Made by kaveO - https://github.com/kaveOO");
 
 	putchark('\n');
 	putchark('\n');
 
 	putchark('\n');
-	g_kernel.color = RED;
 	centered_print("[ PRESS ENTER TO START ]");
-	g_kernel.color = WHITE;
 
 	while (!get_enter_pressed(g_keyboard)) {
 		asm volatile("hlt");
 	}
 
-	g_kernel.color = WHITE;
 	clear_screen();
 }

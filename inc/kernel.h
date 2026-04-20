@@ -9,8 +9,6 @@ typedef struct		s_kernel {
 	t_keyboard		keyboard;
 	t_display		screens;
 	t_cpu			cpu;
-	unsigned int	color;
-	unsigned int	bg_color;
 } 					t_kernel;
 
 extern t_kernel g_kernel;

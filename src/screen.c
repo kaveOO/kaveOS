@@ -39,7 +39,7 @@ static void load_screen(uint8_t index) {
 
 	for (int i = 0; i < VGA_SIZE; i += 2) {
 		vga_start[i] = screen->buffer[i];
-		vga_start[i + 1] = vga_attr(screen->buffer[i + 1], g_kernel.bg_color);
+		vga_start[i + 1] = vga_attr(screen->buffer[i + 1], screen->theme.bg_color);
 	}
 
 	display->current = index;
@@ -52,17 +52,11 @@ void screen_changer(uint8_t key) {
 	if (screen && get_shift_pressed(g_keyboard)) {
 		uint8_t index = f_keys_to_int[key];
 
-		if (42 == screen->theme) {
-			g_kernel.color = 42;
-		} else {
-			g_kernel.color = screen->theme;
-		}
-
 		save_screen_state();
 		load_screen(index);
 
 		if (false == screen->switched && display->current != 1) {
-			printk("kaveOS> \0 ");
+			printk("%d - kaveOS> \0 ", display->current);
 		}
 
 		screen->switched = true;
@@ -73,13 +67,14 @@ void init_display() {
 	for (int i = 1; i <= 12; i++) {
 		display->screens[i].cursor_col = 0;
 		display->screens[i].cursor_row = 0;
-		display->screens[i].theme = 42;
+		display->screens[i].theme.color = WHITE;
+		display->screens[i].theme.bg_color = BLACK;
 		display->screens[i].switched = false;
 
 		for (int j = 0; j < VGA_SIZE; j += 2) {
 			BLANK_CELL(
 				&display->screens[i].buffer[j],
-				g_kernel.bg_color
+				BLACK
 			);
 		}
 
@@ -95,4 +90,8 @@ void init_display() {
 
 t_screen *get_current_screen() {
 	return &display->screens[display->current];
+}
+
+t_theme *get_current_theme() {
+	return &display->screens[display->current].theme;
 }

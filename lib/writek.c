@@ -31,7 +31,7 @@ static int format_handler(int c) {
 				return 1;
 			}
 			g_vga -= 2;
-			BLANK_CELL(g_vga, g_kernel.bg_color);
+			BLANK_CELL(g_vga, get_current_screen()->theme.bg_color);
 			screen->cmd_index--;
 			screen->cmd_buffer[screen->cmd_index] = '\0';
 			return 1;
@@ -47,8 +47,7 @@ static int format_handler(int c) {
 }
 
 int writek(int c, int len) {
-	unsigned int fg = (g_kernel.color == 42) ? WHITE : g_kernel.color;
-	unsigned int attr = (g_kernel.bg_color << 4) | (fg & 0x0F);
+	t_theme *theme = get_current_theme();
 
 	for (int i = 0; i < len; i++) {
 		if (format_handler(c)) {
@@ -58,8 +57,9 @@ int writek(int c, int len) {
 			scroll_up();
 		}
 		*g_vga++ = (unsigned char)c;
-		*g_vga++ = (unsigned char)attr;
+		*g_vga++ = vga_attr(theme->color, theme->bg_color);
 	}
+
 	move_cursor();
 	return len;
 }

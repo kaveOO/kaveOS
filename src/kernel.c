@@ -8,6 +8,7 @@
 
 // TODO get_cpu_halted -> is_cpu_halted
 
+
 t_kernel	g_kernel;
 t_cpu		*g_cpu = &g_kernel.cpu;
 t_keyboard	*g_keyboard;
@@ -15,9 +16,7 @@ t_keyboard	*g_keyboard;
 void kernel_init() {
 	g_kernel.keyboard.flags = 0;
 	g_kernel.cpu.flags = 0;
-	g_kernel.color = 42;
-	g_kernel.bg_color = BLACK;
-	init_display(&g_kernel.screens);
+	init_display();
 	g_kernel.screens.current = 1;
 	boot_screen();
 }
