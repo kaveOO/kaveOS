@@ -102,7 +102,7 @@ static void process_input_char(t_screen *screen, char c) {
 		set_cmd_ready(g_keyboard, true);
 		printk("\n");
 	} else if (BACKSPACE == c) {
-		if (0 < screen->cmd_index) {
+		if (screen->cmd_index > 0) {
 			printk("\b");
 		}
 	} else if (TAB == c) {

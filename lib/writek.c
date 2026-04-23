@@ -27,9 +27,6 @@ static int format_handler(int c) {
 		}
 		case '\b':
 		{
-			if (screen->cmd_index == 0) {
-				return 1;
-			}
 			g_vga -= 2;
 			BLANK_CELL(g_vga, get_current_screen()->theme.bg_color);
 			screen->cmd_index--;
@@ -56,6 +53,7 @@ int writek(int c, int len) {
 		if (g_vga >= vga_end) {
 			scroll_up();
 		}
+
 		*g_vga++ = (unsigned char)c;
 		*g_vga++ = vga_attr(theme->color, theme->bg_color);
 	}
