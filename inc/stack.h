@@ -12,21 +12,21 @@ enum StackType {
 	KERNEL_EXEC,
 };
 
-extern uint32_t	stack_top[];
-extern uint32_t	stack_bottom[];
-extern uint32_t gdt_start[];
-extern uint32_t gdt_end[];
-extern uint32_t idt_start[];
-extern uint32_t idt_end[];
+extern u32	stack_top[];
+extern u32	stack_bottom[];
+extern u32 gdt_start[];
+extern u32 gdt_end[];
+extern u32 idt_start[];
+extern u32 idt_end[];
 
-static inline uint32_t get_esp() {
-	uint32_t esp;
+static inline u32 get_esp() {
+	u32 esp;
 	asm volatile("mov %%esp, %0" : "=r"(esp));
 	return esp;
 }
 
-static inline uint32_t get_ebp() {
-	uint32_t ebp;
+static inline u32 get_ebp() {
+	u32 ebp;
 	asm volatile("mov %%ebp, %0" : "=r"(ebp));
 	return ebp;
 }

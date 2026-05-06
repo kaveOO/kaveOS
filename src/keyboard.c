@@ -1,6 +1,6 @@
 #include "keyboard.h"
 
-const uint8_t f_keys_to_int[0x59] = {
+const u8 f_keys_to_int[0x59] = {
 	[F1] = 1,
 	[F2] = 2,
 	[F3] = 3,
@@ -29,7 +29,7 @@ const char scancode_normal[128] = {
 	'\\','z','x','c','v','b','n','m',',','.','/', 0,  '*', 0, ' '
 };
 
-static void	update_modifiers(uint8_t key, t_key_state state) {
+static void	update_modifiers(u8 key, t_key_state state) {
 	if (SHIFT == key) {
 		set_shift_pressed(g_keyboard, state == KEY_PRESSED);
 	} else if (CONTROL == key) {
@@ -39,8 +39,8 @@ static void	update_modifiers(uint8_t key, t_key_state state) {
 	}
 }
 
-static char	translate_scancode(uint8_t scancode) {
-	uint8_t key = scancode & 0x7F;
+static char	translate_scancode(u8 scancode) {
+	u8 key = scancode & 0x7F;
 	char c = 0;
 
 	if (get_shift_pressed(g_keyboard)) {
@@ -63,7 +63,7 @@ static char	translate_scancode(uint8_t scancode) {
 	return c;
 }
 
-static void handle_special_keys(uint8_t scancode, char c, t_key_state state) {
+static void handle_special_keys(u8 scancode, char c, t_key_state state) {
 	if (state != KEY_PRESSED) {
 		return;
 	}
@@ -73,7 +73,7 @@ static void handle_special_keys(uint8_t scancode, char c, t_key_state state) {
 		return;
 	}
 
-	uint8_t key = scancode & 0x7F;
+	u8 key = scancode & 0x7F;
 
 	switch (key) {
 		case RIGHT_ARROW:
@@ -117,14 +117,15 @@ static void process_input_char(t_screen *screen, char c) {
 }
 
 void keyboard_handler() {
-	uint8_t scancode = inb(KEYBOARD_DATA_PORT);
+	u8 scancode = inb(KEYBOARD_DATA_PORT);
 	t_key_state state = (scancode & KEY_RELEASED) ?
 						KEY_RELEASED : KEY_PRESSED;
-	uint8_t key = scancode & 0x7F;
+	u8 key = scancode & 0x7F;
 
 	update_modifiers(key, state);
 	theme_changer(key);
-	screen_changer(key);
+	if (get_shift_pressed(g_keyboard))
+		screen_changer(key);
 
 	char c = translate_scancode(scancode);
 	handle_special_keys(scancode, c, state);

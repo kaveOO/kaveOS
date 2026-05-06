@@ -13,7 +13,7 @@ static void replace_vga_theme(t_theme *theme) {
 	}
 }
 
-static t_theme *set_theme_from_key(uint8_t key) {
+static t_theme *set_theme_from_key(u8 key) {
 	t_theme *theme = get_current_theme();
 	enum Colors color;
 
@@ -32,7 +32,7 @@ static t_theme *set_theme_from_key(uint8_t key) {
 	return NULL;
 }
 
-void theme_changer(uint8_t key) {
+void theme_changer(u8 key) {
 	t_theme *theme = set_theme_from_key(key);
 
 	if (theme) {

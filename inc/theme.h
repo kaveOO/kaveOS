@@ -9,6 +9,6 @@ typedef struct	s_theme {
 	enum Colors	bg_color;
 }				t_theme;
 
-void	theme_changer(uint8_t key);
+void	theme_changer(u8 key);
 
 #endif

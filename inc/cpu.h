@@ -8,7 +8,7 @@ enum {
 };
 
 typedef struct s_cpu {
-	uint8_t flags;
+	u8 flags;
 	// 0: halted
 	// 1: unused
 	// 2: unused

@@ -42,7 +42,7 @@ enum Colors { // https://www.fountainware.com/EXPL/vga_color_palettes.htm
 extern unsigned char	*g_vga;
 extern unsigned char	*vga_end;
 
-static inline uint8_t vga_attr(uint8_t fg, unsigned int bg) {
+static inline u8 vga_attr(u8 fg, unsigned int bg) {
 	return (unsigned char)(bg << 4) | (fg & 0x0F);
 }
 

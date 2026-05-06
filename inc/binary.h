@@ -5,15 +5,15 @@
 
 #define BIT(n) (1u << (n))
 
-static inline bool get_flag(uint8_t flags, uint8_t bit) {
+static inline bool get_flag(u8 flags, u8 bit) {
 	return (flags >> bit) & 1;
 }
 
-static inline void set_flag(uint8_t *flags, uint8_t bit, bool value) {
+static inline void set_flag(u8 *flags, u8 bit, bool value) {
 	if (value) {
 		*flags |= BIT(bit);
 	} else {
-		*flags &= (uint8_t)~BIT(bit);
+		*flags &= (u8)~BIT(bit);
 	}
 }
 

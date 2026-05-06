@@ -16,21 +16,21 @@ extern t_kernel g_kernel;
 typedef struct 		s_screen {
 	unsigned char	buffer[VGA_SIZE];
 	char			cmd_buffer[CMD_BUFFER_SIZE];
-	uint8_t			cursor_row;
-	uint8_t			cursor_col;
-	uint8_t			cmd_index;
+	u8			cursor_row;
+	u8			cursor_col;
+	u8			cmd_index;
 	bool			switched;
 	t_theme			theme;
 }					t_screen;
 
 typedef struct		s_display {
 	t_screen		screens[MAX_SCREENS];
-	uint8_t			current;
+	u8			current;
 }					t_display;
 
 t_screen	*get_current_screen();
 t_theme		*get_current_theme();
-void		screen_changer(uint8_t key);
+void		screen_changer(u8 key);
 void 		init_display();
 
 #endif

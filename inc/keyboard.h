@@ -47,7 +47,7 @@ enum {
 };
 
 typedef struct		s_keyboard {
-	uint8_t			flags;
+	u8			flags;
 	// 0: shift_pressed
 	// 1: ctrl_pressed
 	// 2: caps_lock_on
@@ -58,7 +58,7 @@ typedef struct		s_keyboard {
 	// 7: unused
 }					t_keyboard;
 
-extern const uint8_t	f_keys_to_int[0x59];
+extern const u8	f_keys_to_int[0x59];
 extern const char		scancode_shifted[128];
 extern const char		scancode_normal[128];
 
