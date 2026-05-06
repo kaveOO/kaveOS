@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+typedef struct s_theme t_theme;
+
 #define BLANK_CELL(buffer, bg_color) {						\
 	(buffer)[0] = ' ';										\
 	(buffer)[1] = (uchar)((bg_color << 4) | GRAY);	\
@@ -39,19 +41,16 @@ enum Colors { // https://www.fountainware.com/EXPL/vga_color_palettes.htm
 	WHITE
 };
 
-extern unsigned char	*g_vga;
-extern unsigned char	*vga_end;
-
-static inline u8 vga_attr(u8 fg, unsigned int bg) {
-	return (unsigned char)(bg << 4) | (fg & 0x0F);
-}
+extern uchar	*g_vga;
+extern uchar	*vga_end;
 
 void	clear_line(int line);
 void	clear_screen();
 void	copy_line(int src, int dest);
 void	scroll_up();
 void	centered_print(const char *str);
-void	boot_screen();
+u8	vga_attr(t_theme *theme);
+
 
 #endif
 

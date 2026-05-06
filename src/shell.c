@@ -31,7 +31,7 @@ void exec_cmd(const char *line) {
 }
 
 void shell(t_keyboard *keyboard) {
-	printk("%d - kaveOS> \0 ", g_kernel.screens.current);
+	printk("%d - kaveOS> ", g_kernel.screens.current);
 	while (1) {
 		while (!get_cmd_ready(keyboard)) {
 			// Wait for \n signal, halting is mandatory for race conditions
@@ -45,6 +45,6 @@ void shell(t_keyboard *keyboard) {
 		screen->cmd_index = 0;
 		set_cmd_ready(keyboard, false);
 		memsetk(screen->cmd_buffer, 0, sizeof(screen->cmd_buffer));
-		printk("%d - kaveOS> \0 ", g_kernel.screens.current);
+		printk("%d - kaveOS> ", g_kernel.screens.current);
 	}
 }

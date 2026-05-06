@@ -54,8 +54,8 @@ int writek(int c, int len) {
 			scroll_up();
 		}
 
-		*g_vga++ = (unsigned char)c;
-		*g_vga++ = vga_attr(theme->color, theme->bg_color);
+		*g_vga++ = (uchar)c;
+		*g_vga++ = vga_attr(theme);
 	}
 
 	move_cursor();

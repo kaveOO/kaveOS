@@ -8,7 +8,7 @@ static void replace_vga_theme(t_theme *theme) {
 	uchar *vga_start = VGA_ENTRY;
 
 	for (int i = 0; i < VGA_SIZE; i++) {
-		vga_start[1] = vga_attr(theme->color, theme->bg_color);
+		vga_start[1] = vga_attr(theme);
 		vga_start += 2;
 	}
 }
