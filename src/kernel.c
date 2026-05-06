@@ -18,7 +18,6 @@ void kernel_init() {
 	g_kernel.cpu.flags = 0;
 	init_display();
 	g_kernel.screens.current = 1;
-	boot_screen();
 }
 
 void kmain() {

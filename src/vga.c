@@ -59,30 +59,10 @@ void centered_print(const char *str) {
 	putchark('\n');
 }
 
-void boot_screen() {
-	printk("\n\n\n\n");
-
-	centered_print("  _                    ____   _____ ");
-	centered_print(" | |                  / __ \\ / ____|");
-	centered_print(" | | ____ ___   _____| |  | | (___  ");
-	centered_print(" | |/ / _` \\ \\ / / _ \\ |  | |\\___ \\ ");
-	centered_print(" |   < (_| |\\ V /  __/ |__| |____) |");
-	centered_print(" |_|\\_\\__,_| \\_/ \\___|\\____/|_____/ ");
-
-	putchark('\n');
-	putchark('\n');
-
-	centered_print("Made by kaveO - https://github.com/kaveOO");
-
-	putchark('\n');
-	putchark('\n');
-
-	putchark('\n');
-	centered_print("[ PRESS ENTER TO START ]");
-
-	while (!get_enter_pressed(g_keyboard)) {
-		asm volatile("hlt");
-	}
-
-	clear_screen();
+/// @brief
+/// @param theme
+/// @return
+u8 vga_attr(t_theme *theme)
+{
+	return (uchar)(theme->bg_color << 4) | (theme->color & 0x0F);
 }
