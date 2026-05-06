@@ -18,7 +18,7 @@ static inline u8 get_cursor_col() {
 
 void	update_cursor(int row, int col);
 void 	move_cursor();
-int		get_cursor_x();
-int		get_cursor_y();
+int	get_cursor_x();
+int	get_cursor_y();
 
 #endif
