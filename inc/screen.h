@@ -14,7 +14,7 @@ typedef struct s_kernel t_kernel;
 extern t_kernel g_kernel;
 
 typedef struct 		s_screen {
-	unsigned char	buffer[VGA_SIZE];
+	uchar	buffer[VGA_SIZE];
 	char			cmd_buffer[CMD_BUFFER_SIZE];
 	u8			cursor_row;
 	u8			cursor_col;

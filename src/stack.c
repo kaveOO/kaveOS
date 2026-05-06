@@ -5,26 +5,26 @@ void print_stack(enum StackType stack) {
 	switch (stack) {
 		case GDT:
 			hexdump(
-				(unsigned char *)&gdt_start,
-				(unsigned char *)&gdt_end
+				(uchar *)&gdt_start,
+				(uchar *)&gdt_end
 			);
 			break;
 		case IDT:
 			hexdump(
-				(unsigned char *)&idt_start,
-				(unsigned char *)&idt_end
+				(uchar *)&idt_start,
+				(uchar *)&idt_end
 			);
 			break;
 		case KERNEL:
 			hexdump(
-				(unsigned char *)&stack_bottom,
-				(unsigned char *)&stack_top
+				(uchar *)&stack_bottom,
+				(uchar *)&stack_top
 			);
 			break;
 		case KERNEL_EXEC:
 			hexdump(
-				(unsigned char *)get_esp(),
-				(unsigned char *)&stack_top
+				(uchar *)get_esp(),
+				(uchar *)&stack_top
 			);
 			break;
 		default:
@@ -33,14 +33,14 @@ void print_stack(enum StackType stack) {
 	}
 }
 
-void hexdump(unsigned char *start, unsigned char *end) {
+void hexdump(uchar *start, uchar *end) {
 	char hex_digits[] = "0123456789abcdef";
 
 	while (start < end) {
 		printk("%p  ", start);
 
 		for (int i = 0; i < DUMP_SIZE; i++) {
-			unsigned char byte = start[i];
+			uchar byte = start[i];
 
 			writek(hex_digits[byte >> 4], 1);
 			writek(hex_digits[byte & 0xF], 1);
@@ -54,7 +54,7 @@ void hexdump(unsigned char *start, unsigned char *end) {
 		writek(' ', 1);
 
 		for (int i = 0; i < DUMP_SIZE; i++) {
-			unsigned char c = start[i];
+			uchar c = start[i];
 
 			if (isprintk(c)) {
 				writek(c, 1);

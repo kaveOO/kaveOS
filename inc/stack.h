@@ -31,7 +31,7 @@ static inline u32 get_ebp() {
 	return ebp;
 }
 
-void	hexdump(unsigned char *start, unsigned char *end);
+void	hexdump(uchar *start, uchar *end);
 void	print_stack(enum StackType stack);
 
 #endif

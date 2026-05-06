@@ -4,8 +4,8 @@
 #include "lib.h"
 #include "keyboard.h"
 
-unsigned char *g_vga	= VGA_ENTRY;
-unsigned char *vga_end	= VGA_END;
+uchar *g_vga	= VGA_ENTRY;
+uchar *vga_end	= VGA_END;
 
 void scroll_up() {
 	for (int y = 0; y < VGA_HEIGHT - 1; y++) {
@@ -17,8 +17,8 @@ void scroll_up() {
 }
 
 void copy_line(int src, int dest) {
-	unsigned char *src_entry = VGA_ENTRY + src * VGA_LINE;
-	unsigned char *dest_entry = VGA_ENTRY + dest * VGA_LINE;
+	uchar *src_entry = VGA_ENTRY + src * VGA_LINE;
+	uchar *dest_entry = VGA_ENTRY + dest * VGA_LINE;
 
 	for (int i = 0; i < VGA_WIDTH; i++) {
 		COPY_CHAR(src_entry, dest_entry);
@@ -28,7 +28,7 @@ void copy_line(int src, int dest) {
 }
 
 void clear_screen() {
-	unsigned char *screen_entry = VGA_ENTRY;
+	uchar *screen_entry = VGA_ENTRY;
 
 	for (int i = 0; i < VGA_SIZE; i++) {
 		BLANK_CELL(screen_entry, get_current_screen()->theme.bg_color);
@@ -39,7 +39,7 @@ void clear_screen() {
 }
 
 void clear_line(int line) {
-	unsigned char *line_entry = VGA_ENTRY + line * VGA_LINE;
+	uchar *line_entry = VGA_ENTRY + line * VGA_LINE;
 
 	for (int i = 0; i < VGA_WIDTH; i++) {
 		BLANK_CELL(line_entry, get_current_screen()->theme.bg_color);
