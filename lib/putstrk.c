@@ -1,10 +1,11 @@
 #include "lib.h"
 
-int putstrk(const char *str) {
-	int len = strlenk(str);
+i32 putstrk(const char *str)
+{
+	i32 len = strlenk(str);
 
-	for (int i = 0; i < len; i++) {
+	for (i32 i = 0; i < len; i++)
 		writek(str[i], 1);
-	}
+
 	return len;
 }

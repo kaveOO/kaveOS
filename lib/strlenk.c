@@ -1,10 +1,11 @@
 #include "lib.h"
 
-int strlenk(const char *str) {
-	int	i = 0;
+i32 strlenk(const char *str)
+{
+	i32 i = 0;
 
-	while (str[i]) {
+	while (str[i])
 		i++;
-	}
+
 	return i;
 }

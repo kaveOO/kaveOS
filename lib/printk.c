@@ -1,29 +1,32 @@
 #include "lib.h"
 
-static int print_hex_up(unsigned int nb) {
-	int count = 0;
+static i32 print_hex_up(u32 nb)
+{
+	i32 count = 0;
 	char *hex = "0123456789ABCDEF";
 
-	if (nb >= 16) {
+	if (nb >= 16)
 		count += print_hex_up(nb / 16);
-	}
 	count += putchark(hex[nb % 16]);
+
 	return count;
 }
 
-static int print_hex_low(unsigned int nb) {
-	int count = 0;
+static i32 print_hex_low(u32 nb)
+{
+	i32 count = 0;
 	char *hex = "0123456789abcdef";
 
-	if (nb >= 16) {
+	if (nb >= 16)
 		count += print_hex_low(nb / 16);
-	}
 	count += putchark(hex[nb % 16]);
+
 	return count;
 }
 
-static int putnbrk(int nb) {
-	int count = 0;
+static i32 putnbrk(i32 nb)
+{
+	i32 count = 0;
 
 	if (-2147483648 == nb) {
 		count += putstrk("-2147483648");
@@ -37,91 +40,104 @@ static int putnbrk(int nb) {
 		count += putnbrk(nb / 10);
 		count += putnbrk(nb % 10);
 	}
+
 	return count;
 }
 
-static int print_address(const unsigned long nb) {
-	int count = 0;
+static i32 print_address(const u32 nb)
+{
+	i32 count = 0;
 
-	if (nb >= 16) {
+	if (nb >= 16)
 		count += print_address(nb / 16);
-	}
 
-	if (nb % 16 < 10) {
+	if (nb % 16 < 10)
 		count += putchark((nb % 16) + '0');
-	} else {
+	else
 		count += putchark((nb % 16) - 10 + 'a');
-	}
+
 	return count;
 }
 
-static int hex_len(unsigned long nb) {
-	int len = 1;
+static i32 hex_len(u32 nb)
+{
+	i32 len = 1;
 
 	while (nb >= 16) {
 		nb /= 16;
 		len++;
 	}
+
 	return len;
 }
 
-static int printptrk(void *address) {
-	unsigned long addr = (unsigned long)address;
-	int len = 0;
-	int width = sizeof(void *) * 2;
-	int digits;
+static i32 printptrk(void *address)
+{
+	u32 addr = (u32)address;
+	i32 len = 0;
+	i32 width = sizeof(void *) * 2;
+	i32 digits;
 
 	len += putstrk("0x");
 
 	if (!address) {
-		for (int i = 0; i < width; i++) {
+		for (i32 i = 0; i < width; i++)
 			len += putchark('0');
-		}
 		return len;
 	}
 
 	digits = hex_len(addr);
 
-	for (int i = 0; i < width - digits; i++) {
+	for (i32 i = 0; i < width - digits; i++)
 		len += putchark('0');
-	}
-
 	len += print_address(addr);
+
 	return len;
 }
 
-int printk(const char *str, ...) {
+i32 format_handler(char format, va_list list)
+{
+	i32 count = 0;
+
+	switch (format) {
+	case 'c':
+		count += putchark(va_arg(list, i32));
+		break;
+	case 's':
+		count += putstrk(va_arg(list, const char *));
+		break;
+	case 'd':
+	case 'i':
+		count += putnbrk(va_arg(list, i32));
+		break;
+	case 'x':
+		count += print_hex_low(va_arg(list, u32));
+		break;
+	case 'X':
+		count += print_hex_up(va_arg(list, u32));
+		break;
+	case 'p':
+		count += printptrk(va_arg(list, void *));
+	}
+
+	return count;
+}
+
+i32 printk(const char *str, ...)
+{
 	va_list list;
 	va_start(list, str);
-	int count = 0;
+	i32 count = 0;
 
-	for (int i = 0; str[i]; i++) {
+	for (i32 i = 0; str[i]; i++) {
 		if (PERCENT == str[i]) {
 			i++;
-			switch (str[i]) {
-				case 'c':
-					count += putchark(va_arg(list, int));
-					break;
-				case 's':
-					count += putstrk(va_arg(list, const char *));
-					break;
-				case 'd':
-				case 'i':
-					count += putnbrk(va_arg(list, int));
-					break;
-				case 'x':
-					count += print_hex_low(va_arg(list, unsigned int));
-					break;
-				case 'X':
-					count += print_hex_up(va_arg(list, unsigned int));
-					break;
-				case 'p':
-					count += printptrk(va_arg(list, void *));
-			}
+			count += format_handler(str[i], list);
 			i++;
 		}
 		count += writek(str[i], 1);
 	}
 	va_end(list);
+
 	return count;
 }

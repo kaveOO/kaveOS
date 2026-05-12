@@ -1,5 +1,6 @@
 #include "lib.h"
 
-int putchark(int c) {
+i32 putchark(i32 c)
+{
 	return writek(c, 1);
 }

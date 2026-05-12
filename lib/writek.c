@@ -15,7 +15,7 @@ static void handle_newline()
 
 static void handle_tab(t_screen *screen)
 {
-	int current_x = ((g_vga - VGA_ENTRY) / 2) % VGA_WIDTH;
+	i32 current_x = ((g_vga - VGA_ENTRY) / 2) % VGA_WIDTH;
 
 	if (current_x > VGA_WIDTH - TAB_SIZE)
 		scroll_up();
@@ -32,7 +32,7 @@ static void handle_backspace(t_screen *screen)
 	screen->cmd_buffer[screen->cmd_index] = '\0';
 }
 
-static bool format_handler(int c)
+static bool format_handler(char c)
 {
 	t_screen *screen = get_current_screen();
 
@@ -53,17 +53,17 @@ static bool format_handler(int c)
 		g_vga += VGA_LINE;
 		return true;
 	}
+
 	return false;
 }
 
-int writek(int c, int len)
+i32 writek(i32 c, i32 len)
 {
 	t_theme *theme = get_current_theme();
 
-	for (int i = 0; i < len; i++) {
-		if (true == format_handler(c)) {
+	for (i32 i = 0; i < len; i++) {
+		if (true == format_handler(c))
 			continue;
-		}
 
 		if (g_vga >= vga_end)
 			scroll_up();
@@ -72,5 +72,6 @@ int writek(int c, int len)
 		*g_vga++ = vga_attr(theme);
 	}
 	move_cursor();
+
 	return len;
 }

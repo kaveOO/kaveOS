@@ -1,10 +1,10 @@
 #include "lib.h"
 
-void *memsetk(void *ptr, int value, unsigned long num) {
+void *memsetk(void *ptr, i32 value, u32 num)
+{
 	uchar *p = (uchar *)ptr;
 
-	while (num--) {
+	while (num--)
 		*p++ = (uchar)value;
-	}
 	return ptr;
 }
