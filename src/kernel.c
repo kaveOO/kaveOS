@@ -10,7 +10,7 @@ void kernel_init(void)
 	init_display();
 }
 
-void kmain()
+void kmain(void)
 {
 	kernel_init();
 	shell();

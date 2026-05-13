@@ -29,7 +29,6 @@ struct screen {
 };
 
 struct screen 	*get_current_screen();
-struct theme	*get_current_theme();
 void		screen_changer(u8 key);
 void 		init_display();
 void		init_screen(struct screen *screen);

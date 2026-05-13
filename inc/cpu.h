@@ -1,7 +1,7 @@
 #ifndef CPU_H
 #define CPU_H
 
-#include "binary.h"
+#include <types.h>
 
 enum {
 	CPU_HALT_BIT = 0 // 0000 0001

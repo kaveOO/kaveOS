@@ -1,5 +1,5 @@
-#include <display.h>
 #include <kernel.h>
+#include <display.h>
 
 struct display *display = &kernel.display;
 

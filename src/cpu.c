@@ -1,5 +1,6 @@
 #include <cpu.h>
 #include <kernel.h>
+#include <binary.h>
 
 struct cpu *cpu = &kernel.cpu;
 

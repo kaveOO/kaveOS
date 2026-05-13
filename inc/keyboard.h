@@ -1,24 +1,14 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-#include "types.h"
-#include "binary.h"
-#include "cpu.h"
-#include "vga.h"
-#include "cursor.h"
-#include "chars.h"
-#include "screen.h"
-#include "lib.h"
-#include "theme.h"
+#include <types.h>
 
 #define KEYBOARD_DATA_PORT	0x60
-#define	SHIFT				0x2A
-#define CONTROL				0x1D
-#define	CAPS_LOCK			0x3A
-#define RIGHT_ARROW			0x4D
-#define LEFT_ARROW			0x4B
-
-// TODO set keys as enum
+#define	SHIFT			0x2A
+#define CONTROL			0x1D
+#define	CAPS_LOCK		0x3A
+#define RIGHT_ARROW		0x4D
+#define LEFT_ARROW		0x4B
 
 #define F1	0x3B
 #define F2	0x3C
@@ -33,10 +23,10 @@
 #define F11	0x57
 #define F12	0x58
 
-typedef enum {
+enum key_state {
 	KEY_RELEASED = 0x80,
 	KEY_PRESSED = 0x00
-} t_key_state;
+};
 
 enum {
 	KB_SHIFT_BIT = 0,
@@ -59,8 +49,8 @@ struct keyboard {
 };
 
 extern const u8	f_keys_to_int[0x59];
-extern const char		scancode_shifted[128];
-extern const char		scancode_normal[128];
+extern const char scancode_shifted[128];
+extern const char scancode_normal[128];
 
 bool get_shift_pressed(void);
 bool get_ctrl_pressed(void);

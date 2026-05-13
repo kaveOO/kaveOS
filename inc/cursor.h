@@ -3,7 +3,6 @@
 
 #include <types.h>
 #include <vga.h>
-#include <io.h>
 
 #define	CURSOR_CMD	0x3D4
 #define	CURSOR_DATA	0x3D5
