@@ -2,7 +2,7 @@
 #include "lib.h"
 #include "vga.h"
 
-void print_stack(enum StackType stack)
+void print_stack(enum stack_type stack)
 {
 	switch (stack) {
 	case GDT:

@@ -1,29 +1,29 @@
-#include "screen.h"
-#include "kernel.h"
+#include <screen.h>
+#include <kernel.h>
 
-t_display *display = &g_kernel.screens;
+struct screen (*screens)[MAX_SCREENS] = &kernel.display.screens;
 
 /// @brief Get screen index from key
 /// @param key The key sent by keyboard isr
 /// @return Screen index (if key 1 - 12)
-static t_screen *get_screen_from_key(u8 key)
+static struct screen *get_screen_from_key(u8 key)
 {
 	u8 index = f_keys_to_int[key];
 
-	if (display->current == index)
+	if (get_display()->current == index)
 		return NULL;
 
 	if (index > 0 && index <= 12)
-		return &display->screens[index];
+		return &(*screens)[index];
 
 	return NULL;
 }
 
 /// @brief Save the current screen data in struct
-static void save_screen_state()
+static void save_screen_state(void)
 {
 	uchar *vga_start = VGA_ENTRY;
-	t_screen *screen = get_current_screen();
+	struct screen *screen = get_current_screen();
 
 	for (int i = 0; i < VGA_SIZE; i++)
 		screen->buffer[i] = vga_start[i];
@@ -37,14 +37,14 @@ static void save_screen_state()
 static void load_screen(u8 index)
 {
 	uchar *vga_start = VGA_ENTRY;
-	t_screen *sc = &display->screens[index];
+	struct screen *sc = &(*screens)[index];
 
 	for (int i = 0; i < VGA_SIZE; i += 2) {
 		vga_start[i] = sc->buffer[i];
 		vga_start[i + 1] = vga_attr(&sc->theme);
 	}
 
-	display->current = index;
+	get_display()->current = index;
 	g_vga = get_offset(sc->cursor_row, sc->cursor_col);
 }
 
@@ -52,7 +52,7 @@ static void load_screen(u8 index)
 /// @param key The key which correspond to index of screen to load
 void screen_changer(u8 key)
 {
-	t_screen *screen = get_screen_from_key(key);
+	struct screen *screen = get_screen_from_key(key);
 
 	if (screen) {
 		u8 index = f_keys_to_int[key];
@@ -60,16 +60,15 @@ void screen_changer(u8 key)
 		save_screen_state();
 		load_screen(index);
 
-		if (false == screen->switched && display->current != 1)
-			printk("%d - kaveOS> ", display->current);
-
+		if (false == screen->switched && get_display()->current != 1)
+			printk("%d - kaveOS> ", get_display()->current);
 		screen->switched = true;
 	}
 }
 
 /// @brief Init a screen by setting default values
 /// @param screen The screen to init
-void init_screen(t_screen *screen)
+void init_screen(struct screen *screen)
 {
 	screen->cursor_col = ZERO;
 	screen->cursor_col = ZERO;
@@ -83,24 +82,10 @@ void init_screen(t_screen *screen)
 	memsetk(screen->cmd_buffer, ZERO, sizeof(screen->cmd_buffer));
 }
 
-/// @brief Initalization of display structure
-void init_display(void)
-{
-	for (int i = 1; i <= 12; i++)
-		init_screen(&display->screens[i]);
-}
-
 /// @brief Get a pointer to the current screen
 /// @return A pointer to the actual screen
-t_screen *get_current_screen()
+struct screen *get_current_screen()
 {
-	return &display->screens[display->current];
-}
-
-/// @brief Get a pointer to the current screen's theme
-/// @return A pointer to the current screen theme
-t_theme *get_current_theme()
-{
-	return &display->screens[display->current].theme;
+	return &(*screens)[get_display()->current];
 }
 

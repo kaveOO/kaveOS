@@ -1,5 +1,6 @@
 #include "shell.h"
 #include "kernel.h"
+#include <display.h>
 
 void help() {
 	printk("F1-F12        \tchange the text and write color of current screen\n");
@@ -23,28 +24,28 @@ void exec_cmd(const char *line) {
 	else if (is_str_equal(line, "gdt")) print_stack(GDT);
 	else if (is_str_equal(line, "idt")) print_stack(IDT);
 	else if (is_str_equal(line, "halt")) {
-		set_cpu_halted(g_cpu, true);
-		while (get_cpu_halted(g_cpu)) asm volatile("hlt");
+		set_cpu_halted(true);
+		while (get_cpu_halted()) asm volatile("hlt");
 	}
 	else if (is_str_equal(line, "reboot")) outb(0x64, 0xFE);
 	else printk("command not found: %s\n", line);
 }
 
-void shell(t_keyboard *keyboard) {
-	printk("%d - kaveOS> ", g_kernel.screens.current);
+void shell(void) {
+	printk("%d - kaveOS> ", get_display()->current);
 	while (1) {
-		while (!get_cmd_ready(keyboard)) {
+		while (!get_cmd_ready()) {
 			// Wait for \n signal, halting is mandatory for race conditions
 			asm volatile("hlt");
 		}
-		t_screen *screen = get_current_screen();
+		struct screen *screen = get_current_screen();
 		char *line = screen->cmd_buffer;
 		if (line[0]) {
 			exec_cmd(line);
 		}
 		screen->cmd_index = 0;
-		set_cmd_ready(keyboard, false);
+		set_cmd_ready(false);
 		memsetk(screen->cmd_buffer, 0, sizeof(screen->cmd_buffer));
-		printk("%d - kaveOS> ", g_kernel.screens.current);
+		printk("%d - kaveOS> ", get_display()->current);
 	}
 }

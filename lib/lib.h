@@ -10,7 +10,7 @@ int	strcmpk(const char *s1, const char *s2);
 int	putchark(int c);
 int	putstrk(const char *str);
 int	strlenk(const char *str);
-int	writek(int c, int len);
+i32	writek(i32 c, i32 len);
 int	printk(const char *str, ...);
 int	strncmpk(const char *s1, const char *s2, unsigned int n);
 void	*memsetk(void *ptr, i32 value, u32 num);

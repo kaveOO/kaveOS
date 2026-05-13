@@ -13,7 +13,7 @@ static void handle_newline()
 		scroll_up();
 }
 
-static void handle_tab(t_screen *screen)
+static void handle_tab(struct screen *screen)
 {
 	i32 current_x = ((g_vga - VGA_ENTRY) / 2) % VGA_WIDTH;
 
@@ -24,7 +24,7 @@ static void handle_tab(t_screen *screen)
 	screen->cmd_index += TAB_SIZE;
 }
 
-static void handle_backspace(t_screen *screen)
+static void handle_backspace(struct screen *screen)
 {
 	g_vga -= 2;
 	BLANK_CELL(g_vga, get_current_screen()->theme.bg_color);
@@ -32,9 +32,9 @@ static void handle_backspace(t_screen *screen)
 	screen->cmd_buffer[screen->cmd_index] = '\0';
 }
 
-static bool format_handler(char c)
+static bool format_handler(i32 c)
 {
-	t_screen *screen = get_current_screen();
+	struct screen *screen = get_current_screen();
 
 	switch (c) {
 	case '\n':
@@ -59,7 +59,7 @@ static bool format_handler(char c)
 
 i32 writek(i32 c, i32 len)
 {
-	t_theme *theme = get_current_theme();
+	struct theme *theme = get_theme();
 
 	for (i32 i = 0; i < len; i++) {
 		if (true == format_handler(c))

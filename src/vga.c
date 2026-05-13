@@ -58,11 +58,3 @@ void centered_print(const char *str) {
 	putstrk(str);
 	putchark('\n');
 }
-
-/// @brief
-/// @param theme
-/// @return
-u8 vga_attr(t_theme *theme)
-{
-	return (uchar)(theme->bg_color << 4) | (theme->color & 0x0F);
-}

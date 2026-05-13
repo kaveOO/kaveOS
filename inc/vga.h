@@ -1,9 +1,7 @@
 #ifndef	VGA_H
 #define	VGA_H
 
-#include "types.h"
-
-typedef struct s_theme t_theme;
+#include <types.h>
 
 #define BLANK_CELL(buffer, bg_color) {						\
 	(buffer)[0] = ' ';										\
@@ -15,14 +13,14 @@ typedef struct s_theme t_theme;
 	dest[1]	= src[1];			\
 }
 
-#define	VGA_WIDTH		80
-#define	VGA_HEIGHT		25
-#define	VGA_ENTRY		(uchar *) 0xB8000
-#define	VGA_LINE		VGA_WIDTH * 2
-#define	VGA_SIZE		(VGA_WIDTH * VGA_HEIGHT) * 2
-#define	VGA_END			VGA_ENTRY + VGA_SIZE
+#define	VGA_WIDTH	80
+#define	VGA_HEIGHT	25
+#define	VGA_ENTRY	(uchar *) 0xB8000
+#define	VGA_LINE	VGA_WIDTH * 2
+#define	VGA_SIZE	(VGA_WIDTH * VGA_HEIGHT) * 2
+#define	VGA_END		VGA_ENTRY + VGA_SIZE
 
-enum Colors { // https://www.fountainware.com/EXPL/vga_color_palettes.htm
+enum colors { // https://www.fountainware.com/EXPL/vga_color_palettes.htm
 	BLACK,
 	BLUE,
 	GREEN,
@@ -49,8 +47,6 @@ void	clear_screen();
 void	copy_line(int src, int dest);
 void	scroll_up();
 void	centered_print(const char *str);
-u8	vga_attr(t_theme *theme);
-
 
 #endif
 

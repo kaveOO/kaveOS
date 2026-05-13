@@ -1,17 +1,17 @@
 #ifndef KERNEL_H
 #define KERNEL_H
 
-#include "keyboard.h"
-#include "screen.h"
-#include "cpu.h"
+#include <display.h>
+#include <keyboard.h>
+#include <cpu.h>
 
-typedef struct		s_kernel {
-	t_keyboard		keyboard;
-	t_display		screens;
-	t_cpu			cpu;
-} 					t_kernel;
+struct kernel {
+	struct keyboard	keyboard;
+	struct display	display;
+	struct cpu	cpu;
+};
 
-extern t_kernel g_kernel;
+extern struct kernel kernel;
 
 #endif
 
