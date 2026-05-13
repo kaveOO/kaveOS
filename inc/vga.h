@@ -1,5 +1,5 @@
-#ifndef	VGA_H
-#define	VGA_H
+#ifndef VGA_H
+#define VGA_H
 
 #include <types.h>
 
@@ -39,14 +39,13 @@ enum colors { // https://www.fountainware.com/EXPL/vga_color_palettes.htm
 	WHITE
 };
 
-extern uchar	*g_vga;
-extern uchar	*vga_end;
+extern uchar *vga;
 
-void	clear_line(int line);
-void	clear_screen();
-void	copy_line(int src, int dest);
-void	scroll_up();
-void	centered_print(const char *str);
+void clear_line(i32 line);
+void clear_screen();
+void copy_line(i32 src, i32 dest);
+void scroll_up();
+void centered_print(const char *str);
 
 #endif
 

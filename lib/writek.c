@@ -7,27 +7,27 @@
 
 static void handle_newline()
 {
-	g_vga += (VGA_LINE) - ((g_vga - VGA_ENTRY) % (VGA_LINE));
+	vga += (VGA_LINE) - ((vga - VGA_ENTRY) % (VGA_LINE));
 
-	if (g_vga >= vga_end)
+	if (vga >= VGA_END)
 		scroll_up();
 }
 
 static void handle_tab(struct screen *screen)
 {
-	i32 current_x = ((g_vga - VGA_ENTRY) / 2) % VGA_WIDTH;
+	i32 current_x = ((vga - VGA_ENTRY) / 2) % VGA_WIDTH;
 
 	if (current_x > VGA_WIDTH - TAB_SIZE)
 		scroll_up();
 
-	g_vga += TAB_SIZE * 2;
+	vga += TAB_SIZE * 2;
 	screen->cmd_index += TAB_SIZE;
 }
 
 static void handle_backspace(struct screen *screen)
 {
-	g_vga -= 2;
-	BLANK_CELL(g_vga, get_current_screen()->theme.bg_color);
+	vga -= 2;
+	BLANK_CELL(vga, get_current_screen()->theme.bg_color);
 	screen->cmd_index--;
 	screen->cmd_buffer[screen->cmd_index] = '\0';
 }
@@ -47,10 +47,10 @@ static bool format_handler(i32 c)
 		handle_backspace(screen);
 		return true;
 	case '\r':
-		g_vga -= (g_vga - VGA_ENTRY);
+		vga -= (vga - VGA_ENTRY);
 		return true;
 	case '\v':
-		g_vga += VGA_LINE;
+		vga += VGA_LINE;
 		return true;
 	}
 
@@ -65,11 +65,11 @@ i32 writek(i32 c, i32 len)
 		if (true == format_handler(c))
 			continue;
 
-		if (g_vga >= vga_end)
+		if (vga >= VGA_END)
 			scroll_up();
 
-		*g_vga++ = (uchar)c;
-		*g_vga++ = vga_attr(theme);
+		*vga++ = (uchar)c;
+		*vga++ = vga_attr(theme);
 	}
 	move_cursor();
 

@@ -9,12 +9,12 @@
 
 static inline u8 get_cursor_row(void)
 {
-	return (u8)(((g_vga - VGA_ENTRY) / 2) / VGA_WIDTH);
+	return (u8)(((vga - VGA_ENTRY) / 2) / VGA_WIDTH);
 }
 
 static inline u8 get_cursor_col(void)
 {
-	return (u8)(((g_vga - VGA_ENTRY) / 2) % VGA_WIDTH);
+	return (u8)(((vga - VGA_ENTRY) / 2) % VGA_WIDTH);
 }
 
 void 	move_cursor(void);

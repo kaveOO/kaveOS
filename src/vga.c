@@ -4,54 +4,57 @@
 #include "lib.h"
 #include "keyboard.h"
 
-uchar *g_vga	= VGA_ENTRY;
-uchar *vga_end	= VGA_END;
+uchar *vga = VGA_ENTRY;
 
-void scroll_up() {
-	for (int y = 0; y < VGA_HEIGHT - 1; y++) {
+void scroll_up(void)
+{
+	for (i32 y = 0; y < VGA_HEIGHT - 1; y++)
 		copy_line(y + 1, y);
-	}
 
 	clear_line(VGA_HEIGHT - 1);
-	g_vga = VGA_ENTRY + ((VGA_HEIGHT - 1) * VGA_WIDTH * 2);
+	vga = VGA_ENTRY + ((VGA_HEIGHT - 1) * VGA_WIDTH * 2);
 }
 
-void copy_line(int src, int dest) {
+void copy_line(i32 src, i32 dest)
+{
 	uchar *src_entry = VGA_ENTRY + src * VGA_LINE;
 	uchar *dest_entry = VGA_ENTRY + dest * VGA_LINE;
 
-	for (int i = 0; i < VGA_WIDTH; i++) {
+	for (i32 i = 0; i < VGA_WIDTH; i++) {
 		COPY_CHAR(src_entry, dest_entry);
 		src_entry += 2;
 		dest_entry += 2;
 	}
 }
 
-void clear_screen() {
+void clear_screen(void)
+{
 	uchar *screen_entry = VGA_ENTRY;
 
-	for (int i = 0; i < VGA_SIZE; i++) {
-		BLANK_CELL(screen_entry, get_current_screen()->theme.bg_color);
+	for (i32 i = 0; i < VGA_SIZE; i++) {
+		BLANK_CELL(screen_entry, get_theme()->bg_color);
 		screen_entry += 2;
 	}
 
-	g_vga = VGA_ENTRY;
+	vga = VGA_ENTRY;
 }
 
-void clear_line(int line) {
+void clear_line(i32 line)
+{
 	uchar *line_entry = VGA_ENTRY + line * VGA_LINE;
 
-	for (int i = 0; i < VGA_WIDTH; i++) {
-		BLANK_CELL(line_entry, get_current_screen()->theme.bg_color);
+	for (i32 i = 0; i < VGA_WIDTH; i++) {
+		BLANK_CELL(line_entry, get_theme()->bg_color);
 		line_entry += 2;
 	}
 }
 
-void centered_print(const char *str) {
-	int len = strlenk(str);
-	int padding = ((VGA_WIDTH - len) / 2);
+void centered_print(const char *str)
+{
+	i32 len = strlenk(str);
+	i32 padding = ((VGA_WIDTH - len) / 2);
 
-	for (int i = 0; i < padding; i++) {
+	for (i32 i = 0; i < padding; i++) {
 		putchark(' ');
 	}
 

@@ -3,7 +3,7 @@
 
 void move_cursor(void)
 {
-	i32 pos = ((g_vga - VGA_ENTRY) / 2);
+	i32 pos = ((vga - VGA_ENTRY) / 2);
 
 	outb(CURSOR_CMD, 0x0F);
 	outb(CURSOR_DATA, (u8)(pos & 0xFF));

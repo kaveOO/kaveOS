@@ -46,7 +46,7 @@ static void load_screen(u8 index)
 	}
 
 	get_display()->current = index;
-	g_vga = get_offset(sc->cursor_row, sc->cursor_col);
+	vga = get_offset(sc->cursor_row, sc->cursor_col);
 }
 
 /// @brief Save current screen and load a new screen from key

@@ -136,11 +136,11 @@ static void handle_special_keys(u8 key, enum key_state state)
 
 	switch (key) {
 	case RIGHT_ARROW:
-		g_vga += 2;
+		vga += 2;
 		break;
 	case LEFT_ARROW:
 		if (get_current_screen()->cmd_index > 0)
-			g_vga -= 2;
+			vga -= 2;
 		break;
 	default:
 		break;
