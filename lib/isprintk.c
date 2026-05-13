@@ -1,4 +1,4 @@
-#include "lib.h"
+#include <lib.h>
 
 bool isprintk(i32 c)
 {

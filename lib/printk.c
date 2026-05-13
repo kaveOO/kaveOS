@@ -1,4 +1,4 @@
-#include "lib.h"
+#include <lib.h>
 
 static i32 print_hex_up(u32 nb)
 {
@@ -44,7 +44,7 @@ static i32 putnbrk(i32 nb)
 	return count;
 }
 
-static i32 print_address(const u32 nb)
+static i32 print_address(const unsigned long nb)
 {
 	i32 count = 0;
 

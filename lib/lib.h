@@ -1,8 +1,8 @@
 #ifndef LIB_H
 #define LIB_H
 
-#include "types.h"
-#include "chars.h"
+#include <types.h>
+#include <chars.h>
 
 #define TAB_SIZE 8
 
