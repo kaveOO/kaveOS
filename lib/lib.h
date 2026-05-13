@@ -6,15 +6,15 @@
 
 #define TAB_SIZE 8
 
-int	strcmpk(const char *s1, const char *s2);
-int	putchark(int c);
-int	putstrk(const char *str);
-int	strlenk(const char *str);
+i32	strcmpk(const char *s1, const char *s2);
+i32	putchark(i32 c);
+i32	putstrk(const char *str);
+i32	strlenk(const char *str);
 i32	writek(i32 c, i32 len);
-int	printk(const char *str, ...);
-int	strncmpk(const char *s1, const char *s2, unsigned int n);
+i32	printk(const char *str, ...);
+i32	strncmpk(const char *s1, const char *s2, u32 n);
 void	*memsetk(void *ptr, i32 value, u32 num);
-int	strcmpk(const char *s1, const char *s2);
+i32	strcmpk(const char *s1, const char *s2);
 bool	isprintk(i32 c);
 
 static inline bool is_str_equal(const char *s1, const char *s2)
