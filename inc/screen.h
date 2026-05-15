@@ -9,10 +9,6 @@
 #define MAX_SCREENS 13
 #define CMD_BUFFER_SIZE 256
 
-/// @brief Get screen VGA offset from cursor values
-/// @param row screen cursor row
-/// @param col screen cursor col
-/// @return VGA position of the screen
 static inline uchar *get_offset(u8 row, u8 col)
 {
 	return VGA_ENTRY + 2 * (row * VGA_WIDTH + col);

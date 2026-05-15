@@ -8,7 +8,7 @@
 #include "io.h"
 #include "keyboard.h"
 
-#define CMD_BUFFER_SIZE	256
+#define CMD_BUFFER_SIZE	1024
 
 void shell(void);
 

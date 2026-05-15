@@ -55,7 +55,6 @@ void set_enter_pressed(bool value)
 	set_flag(&kbd->flags, KB_ENTER_BIT, value);
 }
 
-
 static void update_modifiers(u8 key, enum key_state state)
 {
 	if (SHIFT == key)
@@ -66,12 +65,9 @@ static void update_modifiers(u8 key, enum key_state state)
 		set_caps_lock_on(!get_caps_lock_on());
 }
 
-/// @brief Translate a key to a character
-/// @param key The key pressed (sent by keyboard_handler)
-/// @return The character corresponding to the key pressed
 static char key_to_char(u8 key)
 {
-	char c = ZERO;
+	char c = 0;
 
 	if (get_shift_pressed())
 		c = scancode_shifted[key];
@@ -91,8 +87,6 @@ static char key_to_char(u8 key)
 	return c;
 }
 
-/// @brief Handle the cpu state from keyboard interruption
-/// @param key The key pressed (sent by keyboard_handler)
 static void handle_cpu_state(u8 key)
 {
 	if (get_cpu_halted())
@@ -119,9 +113,12 @@ static void handle_special_keys(u8 key, enum key_state state)
 	move_cursor();
 }
 
-static void process_input_char(struct screen *screen, char c)
+static void process_input_char(char c)
 {
+	struct screen *screen = get_current_screen();
+
 	if (NEW_LINE == c) {
+		printk("%d\n", screen->cmd_index);
 		if (!get_cmd_ready()) {
 			if (!get_enter_pressed()) {
 				set_enter_pressed(true);
@@ -161,5 +158,5 @@ void keyboard_handler(void)
 	char c = key_to_char(key);
 	handle_special_keys(key, state);
 	if (c && KEY_PRESSED == state && !get_cpu_halted())
-		process_input_char(get_current_screen(), c);
+		process_input_char(c);
 }
