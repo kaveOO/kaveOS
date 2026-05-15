@@ -5,35 +5,6 @@
 
 struct keyboard *kbd = &kernel.keyboard;
 
-const u8 f_keys_to_int[0x59] = {
-	[F1] = 1,
-	[F2] = 2,
-	[F3] = 3,
-	[F4] = 4,
-	[F5] = 5,
-	[F6] = 6,
-	[F7] = 7,
-	[F8] = 8,
-	[F9] = 9,
-	[F10] = 10,
-	[F11] = 11,
-	[F12] = 12
-};
-
-const char scancode_normal[128] = {
-	0,  27, '1','2','3','4','5','6','7','8','9','0','-','=', '\b', '\t',
-	'q','w','e','r','t','y','u','i','o','p','[',']','\n', 0,
-	'a','s','d','f','g','h','j','k','l',';','\'', '`', 0,
-	'\\','z','x','c','v','b','n','m',',','.','/', 0,  '*', 0, ' '
-};
-
-const char scancode_shifted[128] = {
-	0,  27, '!','@','#','$','%','^','&','*','(',')','_','+', '\b', '\t',
-	'Q','W','E','R','T','Y','U','I','O','P','{','}','\n', 0,
-	'A','S','D','F','G','H','J','K','L',':','"','~', 0,
-	'|','Z','X','C','V','B','N','M','<','>','?', 0,  '*', 0, ' '
-};
-
 bool get_shift_pressed(void)
 {
 	return get_flag(kbd->flags, KB_SHIFT_BIT);
@@ -150,9 +121,7 @@ static void handle_special_keys(u8 key, enum key_state state)
 
 static void process_input_char(struct screen *screen, char c)
 {
-	if (!get_enter_pressed() && NEW_LINE != c) {
-		return;
-	} else if (NEW_LINE == c) {
+	if (NEW_LINE == c) {
 		if (!get_cmd_ready()) {
 			if (!get_enter_pressed()) {
 				set_enter_pressed(true);
