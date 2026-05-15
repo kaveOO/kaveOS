@@ -1,6 +1,7 @@
 #include <screen.h>
 #include <kernel.h>
 #include <cursor.h>
+#include <lib.h>
 
 struct screen (*screens)[MAX_SCREENS] = &kernel.display.screens;
 

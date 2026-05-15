@@ -1,6 +1,8 @@
 #include <shell.h>
 #include <kernel.h>
-#include <display.h>
+#include <stack.h>
+#include <lib.h>
+#include <io.h>
 
 void help(void)
 {

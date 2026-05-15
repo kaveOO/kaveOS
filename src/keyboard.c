@@ -2,6 +2,8 @@
 #include <kernel.h>
 #include <binary.h>
 #include <cursor.h>
+#include <lib.h>
+#include <io.h>
 
 struct keyboard *kbd = &kernel.keyboard;
 

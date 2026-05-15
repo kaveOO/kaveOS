@@ -1,13 +1,12 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include "types.h"
-#include "shell.h"
-#include "vga.h"
-#include "theme.h"
+#include <types.h>
+#include <vga.h>
+#include <theme.h>
+#include <shell.h>
 
 #define MAX_SCREENS 13
-#define CMD_BUFFER_SIZE 256
 
 static inline uchar *get_offset(u8 row, u8 col)
 {
