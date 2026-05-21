@@ -3,14 +3,16 @@
 
 #include <types.h>
 
-#define BLANK_CELL(buffer, bg_color) {						\
-	(buffer)[0] = ' ';										\
+#define BLANK_CELL(buffer, bg_color)			\
+{							\
+	(buffer)[0] = ' ';				\
 	(buffer)[1] = (uchar)((bg_color << 4) | GRAY);	\
 }
 
-#define COPY_CHAR(src, dest) {	\
-	dest[0]	= src[0];			\
-	dest[1]	= src[1];			\
+#define COPY_CHAR(src, dest)	\
+{				\
+	dest[0]	= src[0];	\
+	dest[1]	= src[1];	\
 }
 
 #define	VGA_WIDTH	80

@@ -77,9 +77,9 @@ struct keyboard {
 	// 7: unused
 };
 
-extern const u8	f_keys_to_int[0x59];
-extern const char scancode_shifted[128];
-extern const char scancode_normal[128];
+extern const u8		f_keys_to_int[0x59];
+extern const char	scancode_shifted[128];
+extern const char	scancode_normal[128];
 
 bool get_shift_pressed(void);
 bool get_ctrl_pressed(void);
