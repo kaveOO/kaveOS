@@ -120,7 +120,6 @@ static void process_input_char(char c)
 	struct screen *screen = get_current_screen();
 
 	if (NEW_LINE == c) {
-		printk("%d\n", screen->cmd_index);
 		if (!get_cmd_ready()) {
 			if (!get_enter_pressed()) {
 				set_enter_pressed(true);
